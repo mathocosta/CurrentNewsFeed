@@ -55,9 +55,7 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let current = self.loadedNews[indexPath.row]
-        print(current)
-//        cell.titleText?.text = current.title
-//        cell.descriptionText?.text = current.description
+        cell.configureCell(item: current)
         
         return cell
     }

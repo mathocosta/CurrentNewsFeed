@@ -21,57 +21,45 @@ struct Endpoint {
     }
 }
 
-struct Item: Decodable {
-    var author: String
-    var published: Date
-    var title: String
-    var type: String
-    var url: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case author = "by"
-        case published = "time"
-        case title
-        case type
-        case url
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        self.author = try container.decode(String.self, forKey: .author)
-        let timeString = try container.decode(TimeInterval.self, forKey: .published)
-        self.published = Date(timeIntervalSince1970: timeString)
-        self.title = try container.decode(String.self, forKey: .title)
-        self.type = try container.decode(String.self, forKey: .type)
-        self.url = try container.decode(String.self, forKey: .url)
-    }
-}
-
 class APIHandler: NSObject {
     
+    /// Fetch all top stories on hacker news front page.
+    ///
+    /// - Parameter completion: Action for when the request is finished.
     func topStories(then completion: @escaping ([Item]) -> Void) {
+        var storiesItems = [Item]()
+        
         self.request(Endpoint(path: "/v0/topstories.json")) { resultData in
             do {
                 var storiesIds = try JSONDecoder().decode([Int].self, from: resultData)
                 storiesIds = Array(storiesIds[0...10])
                 
-                var storiesItems = [Item]()
+                let dispatchQueue = DispatchQueue(label: "individualItemQueue", qos: .userInitiated)
+                let dispatchGroup = DispatchGroup.init()
                 
                 for id in storiesIds {
+                    dispatchGroup.enter()
                     self.individualItem(for: id, then: { item in
                         storiesItems.append(item)
+                        dispatchGroup.leave()
                     })
                 }
                 
-                completion(storiesItems)
-                
+                dispatchGroup.notify(queue: dispatchQueue, execute: {
+                    completion(storiesItems)
+                })
             } catch let parsingError {
                 print("Parsing error of top stories: ", parsingError)
             }
         }
     }
     
+    
+    /// Fetch for an individual item by id.
+    ///
+    /// - Parameters:
+    ///   - id: Indetifier of item in API.
+    ///   - completion: Action for when the request is finished.
     func individualItem(for id: Int, then completion: @escaping (Item) -> Void) {
         self.request(Endpoint(path: "/v0/item/\(id).json")) { data in
             do {
@@ -84,7 +72,13 @@ class APIHandler: NSObject {
         }
     }
     
-    func request(_ endpoint: Endpoint, then completion: @escaping (Data) -> Void) {
+    
+    /// Makes a request based on the received endpoint, then run the completion clousure.
+    ///
+    /// - Parameters:
+    ///   - endpoint: Endpoint for the request.
+    ///   - completion: Action to be performed when the request is finished, with the data received.
+    private func request(_ endpoint: Endpoint, then completion: @escaping (Data) -> Void) {
         guard let url = endpoint.url else {
             print("Error on url")
             return

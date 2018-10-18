@@ -10,15 +10,23 @@ import UIKit
 
 class NewsFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var titleText: UILabel!
-    @IBOutlet weak var descriptionText: UITextView!
+    @IBOutlet weak var urlText: UILabel!
     @IBOutlet weak var dateText: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.titleText.numberOfLines = 0
+        self.titleText.lineBreakMode = .byWordWrapping
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
+    func configureCell(item: Item) {
+        self.titleText?.text = item.title
+        let url = URL(string: item.url)
+        self.urlText?.text = url?.host
+    }
 }

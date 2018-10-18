@@ -19,6 +19,7 @@
 		5D6298002177554B00D4373E /* NewsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6297FF2177554B00D4373E /* NewsFeedViewController.swift */; };
 		5D62980321775BF800D4373E /* NewsFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D62980121775BF800D4373E /* NewsFeedTableViewCell.swift */; };
 		5D62980421775BF800D4373E /* NewsFeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D62980221775BF800D4373E /* NewsFeedTableViewCell.xib */; };
+		5D6298082178B5EF00D4373E /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6298072178B5EF00D4373E /* Item.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		5D6297FF2177554B00D4373E /* NewsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedViewController.swift; sourceTree = "<group>"; };
 		5D62980121775BF800D4373E /* NewsFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedTableViewCell.swift; sourceTree = "<group>"; };
 		5D62980221775BF800D4373E /* NewsFeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsFeedTableViewCell.xib; sourceTree = "<group>"; };
+		5D6298072178B5EF00D4373E /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 			children = (
 				5D6297CA2176132200D4373E /* AppDelegate.swift */,
 				5D6297FD21761B2700D4373E /* APIHandler.swift */,
+				5D6298072178B5EF00D4373E /* Item.swift */,
 				5D6298062177857300D4373E /* ViewControllers */,
 				5D62980521775C0400D4373E /* NewsFeedTableViewCell */,
 				5D6297CE2176132200D4373E /* Main.storyboard */,
@@ -292,6 +295,7 @@
 				5D6297CD2176132200D4373E /* ViewController.swift in Sources */,
 				5D62980321775BF800D4373E /* NewsFeedTableViewCell.swift in Sources */,
 				5D6297CB2176132200D4373E /* AppDelegate.swift in Sources */,
+				5D6298082178B5EF00D4373E /* Item.swift in Sources */,
 				5D6297FE21761B2700D4373E /* APIHandler.swift in Sources */,
 				5D6298002177554B00D4373E /* NewsFeedViewController.swift in Sources */,
 			);
