@@ -32,7 +32,7 @@ class APIHandler: NSObject {
         self.request(Endpoint(path: "/v0/topstories.json")) { resultData in
             do {
                 var storiesIds = try JSONDecoder().decode([Int].self, from: resultData)
-                storiesIds = Array(storiesIds[0...10])
+                storiesIds = Array(storiesIds[0..<15])
                 
                 let dispatchQueue = DispatchQueue(label: "individualItemQueue", qos: .userInitiated)
                 let dispatchGroup = DispatchGroup.init()
