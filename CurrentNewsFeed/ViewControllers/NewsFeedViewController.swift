@@ -27,6 +27,10 @@ class NewsFeedViewController: UIViewController {
                 self.feedTableView.reloadData()
             }
         }
+        
+        if self.traitCollection.forceTouchCapability == .available {
+            self.registerForPreviewing(with: self, sourceView: self.feedTableView)
+        }
     }
     
 
@@ -42,7 +46,7 @@ class NewsFeedViewController: UIViewController {
 
 }
 
-// - MARK: FeedTableView delegate and data source implementation.
+// MARK: - FeedTableView delegate and data source implementation.
 extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("count " , self.loadedNews.count)
@@ -58,5 +62,26 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configureCell(item: current)
         
         return cell
+    }
+}
+
+// MARK: - UIViewControllerPreviewingDelegate implementation.
+extension NewsFeedViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = self.feedTableView.indexPathForRow(at: location),
+            let cell = self.feedTableView.cellForRow(at: indexPath) else { return nil }
+        
+        guard let itemViewController = storyboard?.instantiateViewController(withIdentifier: "ItemViewController") as? ItemViewController else { return nil }
+        
+        let item = self.loadedNews[indexPath.row]
+        itemViewController.item = item
+        itemViewController.preferredContentSize = CGSize(width: 0.0, height: 320)
+        previewingContext.sourceRect = cell.frame
+        
+        return itemViewController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
     }
 }

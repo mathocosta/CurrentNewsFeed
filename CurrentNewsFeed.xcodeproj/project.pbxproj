@@ -22,6 +22,7 @@
 		5D62980A2178C8DC00D4373E /* FavoritesFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6298092178C8DC00D4373E /* FavoritesFeedViewController.swift */; };
 		5D62980C2178CC3F00D4373E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D62980B2178CC3F00D4373E /* DataManager.swift */; };
 		5DFDABCD2179EEC40061D7A4 /* CurrentNewsFeed.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5DFDABCB2179EEC40061D7A4 /* CurrentNewsFeed.xcdatamodeld */; };
+		5DFDABD02179FA9A0061D7A4 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFDABCF2179FA9A0061D7A4 /* ItemViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		5D62980B2178CC3F00D4373E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		5DFDABCC2179EEC40061D7A4 /* CurrentNewsFeed.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CurrentNewsFeed.xcdatamodel; sourceTree = "<group>"; };
 		5DFDABCE2179F0360061D7A4 /* CurrentNewsFeed v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CurrentNewsFeed v2.xcdatamodel"; sourceTree = "<group>"; };
+		5DFDABCF2179FA9A0061D7A4 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 				5D6297CC2176132200D4373E /* ViewController.swift */,
 				5D6297FF2177554B00D4373E /* NewsFeedViewController.swift */,
 				5D6298092178C8DC00D4373E /* FavoritesFeedViewController.swift */,
+				5DFDABCF2179FA9A0061D7A4 /* ItemViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				5D6297FE21761B2700D4373E /* APIHandler.swift in Sources */,
 				5D62980A2178C8DC00D4373E /* FavoritesFeedViewController.swift in Sources */,
 				5DFDABCD2179EEC40061D7A4 /* CurrentNewsFeed.xcdatamodeld in Sources */,
+				5DFDABD02179FA9A0061D7A4 /* ItemViewController.swift in Sources */,
 				5D62980C2178CC3F00D4373E /* DataManager.swift in Sources */,
 				5D6298002177554B00D4373E /* NewsFeedViewController.swift in Sources */,
 			);

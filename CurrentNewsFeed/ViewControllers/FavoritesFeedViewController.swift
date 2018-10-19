@@ -50,7 +50,7 @@ class FavoritesFeedViewController: UIViewController {
     */
 }
 
-// - MARK: FeedTableView delegate and data source implementation.
+// MARK: - FeedTableView delegate and data source implementation.
 extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let favorites = self.fetchedResultController.fetchedObjects else {
@@ -73,7 +73,7 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
     }
 }
 
-// - MARK: NSFetchedResultsController delegate implementation.
+// MARK: - NSFetchedResultsController delegate implementation.
 extension FavoritesFeedViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {

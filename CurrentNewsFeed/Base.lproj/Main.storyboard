@@ -40,6 +40,47 @@
             </objects>
             <point key="canvasLocation" x="1116" y="-194"/>
         </scene>
+        <!--Item View Controller-->
+        <scene sceneID="2fP-fR-aec">
+            <objects>
+                <viewController storyboardIdentifier="ItemViewController" id="gaC-cY-HWT" customClass="ItemViewController" customModule="CurrentNewsFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kww-Z7-FCU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ys-os-IKz" userLabel="Title">
+                                <rect key="frame" x="16" y="64" width="288" height="31.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xW5-wT-Qum" userLabel="URL">
+                                <rect key="frame" x="16" y="103.5" width="136" height="18"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="2ys-os-IKz" firstAttribute="top" secondItem="Dy5-nd-tTZ" secondAttribute="top" constant="44" id="0L1-qm-acU"/>
+                            <constraint firstItem="2ys-os-IKz" firstAttribute="leading" secondItem="Dy5-nd-tTZ" secondAttribute="leading" constant="16" id="MVP-wC-EqQ"/>
+                            <constraint firstItem="xW5-wT-Qum" firstAttribute="leading" secondItem="2ys-os-IKz" secondAttribute="leading" id="cXY-Vf-iQf"/>
+                            <constraint firstItem="Dy5-nd-tTZ" firstAttribute="trailing" secondItem="2ys-os-IKz" secondAttribute="trailing" constant="16" id="mda-li-itv"/>
+                            <constraint firstItem="xW5-wT-Qum" firstAttribute="trailing" secondItem="2ys-os-IKz" secondAttribute="trailing" multiplier="0.5" id="rb7-m6-gr0"/>
+                            <constraint firstItem="xW5-wT-Qum" firstAttribute="top" secondItem="2ys-os-IKz" secondAttribute="bottom" constant="8" id="urQ-hQ-tG6"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Dy5-nd-tTZ"/>
+                    </view>
+                    <connections>
+                        <outlet property="titleText" destination="2ys-os-IKz" id="6oG-gA-wxN"/>
+                        <outlet property="urlText" destination="xW5-wT-Qum" id="DzM-Rw-nQT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ae4-av-KnP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2203" y="-194"/>
+        </scene>
         <!--Item-->
         <scene sceneID="cum-VL-IOA">
             <objects>
@@ -77,6 +118,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="C1f-T3-zjn" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8om-b8-mxQ">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
