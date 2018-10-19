@@ -33,16 +33,16 @@ class NewsFeedViewController: UIViewController {
         }
     }
     
-
-    /*
+    
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "DisplayItemSegue" {
+            guard let destination = segue.destination as? ItemViewController,
+                let item = sender as? Item else { return }
+            
+            destination.item = item
+        }
     }
-    */
 
 }
 
@@ -62,6 +62,10 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configureCell(item: current)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "DisplayItemSegue", sender: self.loadedNews[indexPath.row])
     }
 }
 

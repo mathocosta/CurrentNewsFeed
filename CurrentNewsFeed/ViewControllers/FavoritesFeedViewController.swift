@@ -39,15 +39,15 @@ class FavoritesFeedViewController: UIViewController {
     }
     
 
-    /*
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "DisplayItemSegue" {
+            guard let destination = segue.destination as? ItemViewController,
+                let favorite = sender as? Favorite else { return }
+            
+            destination.item = Item(from: favorite)
+        }
     }
-    */
 }
 
 // MARK: - FeedTableView delegate and data source implementation.
@@ -77,6 +77,10 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
             let favorite = self.fetchedResultController.object(at: indexPath)
             DataManager.context.delete(favorite)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "DisplayItemSegue", sender: self.fetchedResultController.object(at: indexPath))
     }
 }
 

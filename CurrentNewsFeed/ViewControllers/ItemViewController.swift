@@ -52,7 +52,9 @@ class ItemViewController: UIViewController {
     /// - Parameter item: Item object with the data to be used.
     func configureView(item: Item) {
         self.titleText?.text = item.title
-        self.urlText?.text = item.url
+        
+        let url = URL(string: item.url)
+        self.urlText?.text = url?.host
     }
 
 }
