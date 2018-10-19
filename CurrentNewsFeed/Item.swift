@@ -23,6 +23,18 @@ struct Item: Decodable {
         case url
     }
     
+    /// Init from Favorite NSManagedObject, it is used to
+    /// build the table view cell on favorites view controller.
+    ///
+    /// - Parameter favorite: Favorite NSManagedObject
+    init(from favorite: Favorite) {
+        self.author = favorite.author ?? ""
+        self.published = favorite.published ?? Date()
+        self.title = favorite.title ?? ""
+        self.type = favorite.type ?? ""
+        self.url = favorite.url ?? ""
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         

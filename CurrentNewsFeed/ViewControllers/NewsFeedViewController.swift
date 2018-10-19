@@ -51,7 +51,7 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsFeedCell", for: indexPath) as? NewsFeedTableViewCell else {
-            fatalError("The dequeued cell is not an instance of MealTableViewCell.")
+            fatalError("The dequeued cell is not an instance of NewsFeedTableViewCell.")
         }
         
         let current = self.loadedNews[indexPath.row]
