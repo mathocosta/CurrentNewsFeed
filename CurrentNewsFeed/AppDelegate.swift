@@ -16,15 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Testing
-        let firstFavorite = Favorite(context: DataManager.context)
-        firstFavorite.title = "Olá teste de favoritos"
-        firstFavorite.type = "story"
-        firstFavorite.url = "www.exemple.com"
-        firstFavorite.published = Date()
-        firstFavorite.savedOn = Date()
-        
-        DataManager.saveContext()
         
         return true
     }

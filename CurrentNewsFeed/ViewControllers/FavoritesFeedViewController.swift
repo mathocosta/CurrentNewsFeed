@@ -56,7 +56,7 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
         guard let favorites = self.fetchedResultController.fetchedObjects else {
             return 0
         }
-        print("count " , favorites.count)
+        print("favorites count " , favorites.count)
         return favorites.count
     }
 
@@ -70,6 +70,13 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
         cell.configureCell(item: item)
 
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let favorite = self.fetchedResultController.object(at: indexPath)
+            DataManager.context.delete(favorite)
+        }
     }
 }
 
