@@ -9,6 +9,7 @@
 import UIKit
 
 class ItemViewController: UIViewController {
+    @IBOutlet weak var authorText: UILabel!
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var urlText: UILabel!
     
@@ -52,6 +53,10 @@ class ItemViewController: UIViewController {
     /// - Parameter item: Item object with the data to be used.
     func configureView(item: Item) {
         self.titleText?.text = item.title
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy h:mm"
+        self.authorText?.text = "by \(item.author) at \(formatter.string(from: item.published))"
         
         let url = URL(string: item.url)
         self.urlText?.text = url?.host

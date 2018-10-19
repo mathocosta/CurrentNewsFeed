@@ -14,12 +14,18 @@ class NewsFeedViewController: UIViewController {
     
     @IBOutlet weak var feedTableView: UITableView!
     
+    var loadingMessageLabel = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.feedTableView.delegate = self
         self.feedTableView.dataSource = self
         self.feedTableView.register(UINib(nibName: "NewsFeedTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsFeedCell")
+        
+        // Default settings for the loading message.
+        self.loadingMessageLabel.text = "Carregando..."
+        self.loadingMessageLabel.textAlignment = .center
         
         self.apiHandler.topStories { (news) in
             DispatchQueue.main.async {
@@ -50,7 +56,10 @@ class NewsFeedViewController: UIViewController {
 extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("count " , self.loadedNews.count)
-        return self.loadedNews.count
+        let count = self.loadedNews.count
+        self.feedTableView.backgroundView = count == 0 ? self.loadingMessageLabel : nil
+    
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

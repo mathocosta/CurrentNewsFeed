@@ -21,6 +21,8 @@ class FavoritesFeedViewController: UIViewController {
         return controller
     }()
     
+    var emptyMessageLabel = UILabel()
+    
     @IBOutlet weak var favoritesTableView: UITableView!
     
     override func viewDidLoad() {
@@ -30,6 +32,10 @@ class FavoritesFeedViewController: UIViewController {
         self.favoritesTableView.dataSource = self
         self.favoritesTableView.register(
             UINib(nibName: "NewsFeedTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsFeedCell")
+        
+        // Default settings for the empty favorites list label.
+        self.emptyMessageLabel.text = "Não há favoritos adicionados"
+        self.emptyMessageLabel.textAlignment = .center
         
         do {
             try self.fetchedResultController.performFetch()
@@ -57,6 +63,8 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
             return 0
         }
         print("favorites count " , favorites.count)
+        self.favoritesTableView.backgroundView = favorites.count == 0 ? self.emptyMessageLabel : nil
+
         return favorites.count
     }
 

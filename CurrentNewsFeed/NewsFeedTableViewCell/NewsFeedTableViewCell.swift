@@ -31,7 +31,7 @@ class NewsFeedTableViewCell: UITableViewCell {
         self.urlText?.text = url?.host
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm | dd/MM/YY"
+        formatter.dateFormat = "MMM d, yyyy"
         self.dateText?.text = formatter.string(from: item.published)
     }
 }
