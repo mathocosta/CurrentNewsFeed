@@ -12,7 +12,7 @@ import CoreData
 class FavoritesFeedViewController: UIViewController {
     lazy var fetchedResultController: NSFetchedResultsController<Favorite> = {
         let request: NSFetchRequest<Favorite> = Favorite.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "savedOn", ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: "savedOn", ascending: false)]
         
         let controller = NSFetchedResultsController(
             fetchRequest: request, managedObjectContext: DataManager.context, sectionNameKeyPath: nil, cacheName: nil)
