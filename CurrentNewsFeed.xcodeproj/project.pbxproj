@@ -123,7 +123,6 @@
 				5D62980B2178CC3F00D4373E /* DataManager.swift */,
 				5D6298072178B5EF00D4373E /* Item.swift */,
 				5D6298062177857300D4373E /* ViewControllers */,
-				5D62980521775C0400D4373E /* NewsFeedTableViewCell */,
 				5D6297CE2176132200D4373E /* Main.storyboard */,
 				5D6297D42176132400D4373E /* Assets.xcassets */,
 				5D6297D62176132400D4373E /* LaunchScreen.storyboard */,
@@ -163,6 +162,7 @@
 		5D6298062177857300D4373E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5D62980521775C0400D4373E /* NewsFeedTableViewCell */,
 				5D6297CC2176132200D4373E /* ViewController.swift */,
 				5D6297FF2177554B00D4373E /* NewsFeedViewController.swift */,
 				5D6298092178C8DC00D4373E /* FavoritesFeedViewController.swift */,

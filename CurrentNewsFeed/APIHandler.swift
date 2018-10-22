@@ -26,10 +26,10 @@ class APIHandler: NSObject {
     /// Fetch all top stories on hacker news front page.
     ///
     /// - Parameter completion: Action for when the request is finished.
-    func topStories(then completion: @escaping ([Item]) -> Void) {
+    func listOfStories(from endpoint: Endpoint,then completion: @escaping ([Item]) -> Void) {
         var storiesItems = [Item]()
         
-        self.request(Endpoint(path: "/v0/topstories.json")) { resultData in
+        self.request(endpoint) { resultData in
             do {
                 var storiesIds = try JSONDecoder().decode([Int].self, from: resultData)
                 storiesIds = Array(storiesIds[0..<15])
@@ -49,7 +49,7 @@ class APIHandler: NSObject {
                     completion(storiesItems)
                 })
             } catch let parsingError {
-                print("Parsing error of top stories: ", parsingError)
+                print("Parsing error of top stories: ", parsingError.localizedDescription)
             }
         }
     }

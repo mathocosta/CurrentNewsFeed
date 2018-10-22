@@ -41,5 +41,6 @@ extension SettingsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // Save the setting to be used when requesting main page content.
+        UserDefaults.standard.set(self.availableFeedsOptions[row].urlPath, forKey: "MainFeedURL")
     }
 }

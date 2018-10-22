@@ -11,6 +11,7 @@ import UIKit
 class NewsFeedViewController: UIViewController {
     var apiHandler = APIHandler()
     var loadedNews: [Item] = []
+    var feedURLPath = ""
     
     @IBOutlet weak var feedTableView: UITableView!
     
@@ -27,18 +28,35 @@ class NewsFeedViewController: UIViewController {
         self.loadingMessageLabel.text = "Carregando..."
         self.loadingMessageLabel.textAlignment = .center
         
-        self.apiHandler.topStories { (news) in
-            DispatchQueue.main.async {
-                self.loadedNews = news
-                self.feedTableView.reloadData()
-            }
-        }
+        // First load.
+        self.loadNews()
         
         if self.traitCollection.forceTouchCapability == .available {
             self.registerForPreviewing(with: self, sourceView: self.feedTableView)
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let urlPath = UserDefaults.standard.string(forKey: "MainFeedURL"),
+            urlPath != self.feedURLPath else { return }
+        
+        print("Appear", self.feedURLPath, urlPath)
+        
+        self.feedURLPath = urlPath
+        self.loadedNews = []
+        self.loadNews()
+    }
+    
+    private func loadNews() {
+        self.apiHandler.listOfStories(from: Endpoint(path: self.feedURLPath)) { (news) in
+            DispatchQueue.main.async {
+                self.loadedNews = news
+                self.feedTableView.reloadData()
+            }
+        }
+    }
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

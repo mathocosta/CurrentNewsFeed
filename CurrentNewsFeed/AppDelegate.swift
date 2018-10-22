@@ -17,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        // Checking if a default feed is already configured.
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: "MainFeedURL") == nil {
+            defaults.set("/v0/topstories.json", forKey: "MainFeedURL")
+        }
+        
         return true
     }
 
