@@ -23,14 +23,7 @@ class ItemViewController: UIViewController {
                 guard let vc = viewController as? ItemViewController,
                     let item = vc.item else { return }
                 
-                let favorite = Favorite(context: DataManager.context)
-                favorite.title = item.title
-                favorite.type = item.type
-                favorite.url = item.url
-                favorite.published = item.published
-                favorite.savedOn = Date()
-                
-                DataManager.saveContext()
+                self.save(favorite: item)
             }
         )
         return [addFavoriteAction]
@@ -62,4 +55,20 @@ class ItemViewController: UIViewController {
         self.urlText?.text = url?.host
     }
 
+    @IBAction func saveFavoriteAction(_ sender: UIBarButtonItem) {
+        guard let item = self.item else { return }
+        
+        self.save(favorite: item)
+    }
+    
+    private func save(favorite item: Item) {
+        let favorite = Favorite(context: DataManager.context)
+        favorite.title = item.title
+        favorite.type = item.type
+        favorite.url = item.url
+        favorite.published = item.published
+        favorite.savedOn = Date()
+        
+        DataManager.saveContext()
+    }
 }

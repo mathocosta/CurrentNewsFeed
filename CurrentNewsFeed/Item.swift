@@ -43,6 +43,6 @@ struct Item: Decodable {
         self.published = Date(timeIntervalSince1970: timeString)
         self.title = try container.decode(String.self, forKey: .title)
         self.type = try container.decode(String.self, forKey: .type)
-        self.url = try container.decode(String.self, forKey: .url)
+        self.url = try container.decodeIfPresent(String.self, forKey: .url) ?? ""
     }
 }

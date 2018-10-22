@@ -52,6 +52,7 @@ class FavoritesFeedViewController: UIViewController {
                 let favorite = sender as? Favorite else { return }
             
             destination.item = Item(from: favorite)
+            destination.hidesBottomBarWhenPushed = true
         }
     }
 }

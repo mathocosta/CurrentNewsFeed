@@ -47,6 +47,7 @@ class NewsFeedViewController: UIViewController {
                 let item = sender as? Item else { return }
             
             destination.item = item
+            destination.hidesBottomBarWhenPushed = true
         }
     }
 
