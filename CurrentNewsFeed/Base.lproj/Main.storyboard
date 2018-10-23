@@ -151,11 +151,11 @@
             </objects>
             <point key="canvasLocation" x="-216" y="-41"/>
         </scene>
-        <!--Item-->
+        <!--Navigation Controller-->
         <scene sceneID="0el-zZ-rUa">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="L8i-Ro-Pdz" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="wOr-e0-2SC"/>
+                    <tabBarItem key="tabBarItem" systemItem="mostRecent" id="wOr-e0-2SC"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hs7-uq-023">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -170,11 +170,11 @@
             </objects>
             <point key="canvasLocation" x="1116" y="-610"/>
         </scene>
-        <!--Item-->
+        <!--Navigation Controller-->
         <scene sceneID="9iO-tw-jfP">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1wu-6d-Jd9" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="kaa-5b-tTi"/>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="kaa-5b-tTi"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="86d-oM-aDa">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -227,11 +227,11 @@
             </objects>
             <point key="canvasLocation" x="2113.125" y="1066.9014084507041"/>
         </scene>
-        <!--Item-->
+        <!--Settings-->
         <scene sceneID="sdK-1Z-d7p">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Nfc-Te-LQN" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="S4M-Ou-Vtz"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="settings" id="S4M-Ou-Vtz"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yKb-Fh-5it">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -247,6 +247,9 @@
             <point key="canvasLocation" x="1115.625" y="1066.9014084507041"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="settings" width="30" height="30"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="z7H-2i-JDo"/>
     </inferredMetricsTieBreakers>

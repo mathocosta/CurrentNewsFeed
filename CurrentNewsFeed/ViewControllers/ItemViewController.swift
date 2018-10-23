@@ -14,6 +14,7 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var urlText: UILabel!
     
     var item: Item?
+    var previousController: UIViewController?
     
     lazy var previewActions: [UIPreviewActionItem] = {
         /// Action to save a favorite, this is done by getting the value of the item
@@ -35,6 +36,12 @@ class ItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.largeTitleDisplayMode = .never
+        
+        if self.previousController is FavoritesFeedViewController {
+            self.navigationItem.rightBarButtonItem = nil
+        }
         
         if let item = item {
             self.configureView(item: item)
