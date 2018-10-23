@@ -9,17 +9,22 @@
 import Foundation
 
 struct Item: Decodable {
-    var author: String
+    var author: String?
     var published: Date
-    var title: String
     var type: String
-    var url: String
+    
+    var title: String?
+    var body: String?
+    var kids: [Int]?
+    var url: String?
     
     private enum CodingKeys: String, CodingKey {
         case author = "by"
         case published = "time"
-        case title
         case type
+        case title
+        case body = "text"
+        case kids
         case url
     }
     
@@ -37,12 +42,15 @@ struct Item: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        self.author = try container.decode(String.self, forKey: .author)
+
         let timeString = try container.decode(TimeInterval.self, forKey: .published)
         self.published = Date(timeIntervalSince1970: timeString)
-        self.title = try container.decode(String.self, forKey: .title)
         self.type = try container.decode(String.self, forKey: .type)
-        self.url = try container.decodeIfPresent(String.self, forKey: .url) ?? ""
+        
+        self.author = try container.decodeIfPresent(String.self, forKey: .author)
+        self.title = try container.decodeIfPresent(String.self, forKey: .title)
+        self.body = try container.decodeIfPresent(String.self, forKey: .body)
+        self.kids = try container.decodeIfPresent([Int].self, forKey: .kids)
+        self.url = try container.decodeIfPresent(String.self, forKey: .url)
     }
 }

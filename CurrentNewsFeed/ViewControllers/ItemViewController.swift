@@ -12,6 +12,10 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var authorText: UILabel!
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var urlText: UILabel!
+    @IBOutlet weak var commentsTableView: UITableView!
+    
+    var loadedComments: [Item] = []
+    var apiHandler = APIHandler()
     
     var item: Item?
     var previousController: UIViewController?
@@ -39,12 +43,25 @@ class ItemViewController: UIViewController {
         
         self.navigationItem.largeTitleDisplayMode = .never
         
+        self.commentsTableView.delegate = self
+        self.commentsTableView.dataSource = self
+        self.commentsTableView.register(UINib(nibName: "CommentItemTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentItemCell")
+        
         if self.previousController is FavoritesFeedViewController {
             self.navigationItem.rightBarButtonItem = nil
         }
         
         if let item = item {
             self.configureView(item: item)
+        }
+        
+        if let kids = self.item?.kids {
+            self.apiHandler.items(from: kids) { items in
+                DispatchQueue.main.async {
+                    self.loadedComments = items
+                    self.commentsTableView.reloadData()
+                }
+            }
         }
     }
     
@@ -56,10 +73,15 @@ class ItemViewController: UIViewController {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, yyyy h:mm"
-        self.authorText?.text = "by \(item.author) at \(formatter.string(from: item.published))"
         
-        let url = URL(string: item.url)
-        self.urlText?.text = url?.host
+        if let author = item.author {
+            self.authorText?.text = "by \(author) at \(formatter.string(from: item.published))"
+        }
+        
+        if let url = item.url {
+            let url = URL(string: url)
+            self.urlText?.text = url?.host
+        }
     }
 
     @IBAction func saveFavoriteAction(_ sender: UIBarButtonItem) {
@@ -77,5 +99,22 @@ class ItemViewController: UIViewController {
         favorite.savedOn = Date()
         
         DataManager.saveContext()
+    }
+}
+
+extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.loadedComments.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentItemCell", for: indexPath) as? CommentItemTableViewCell else {
+            fatalError("The dequeued cell is not an instance of CommentItemTableViewCell.")
+        }
+        
+        let current = self.loadedComments[indexPath.row]
+        cell.configureCell(item: current)
+        
+        return cell
     }
 }

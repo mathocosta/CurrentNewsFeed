@@ -43,10 +43,10 @@ struct Endpoint {
 
 class APIHandler: NSObject {
     
-    /// Fetch all top stories on hacker news front page.
+    /// Fetch all stories on hacker news front page, based on endpoint passed by argument.
     ///
     /// - Parameter completion: Action for when the request is finished.
-    func listOfStories(from endpoint: Endpoint,then completion: @escaping ([Item]) -> Void) {
+    func listOfStories(from endpoint: Endpoint, then completion: @escaping ([Item]) -> Void) {
         var storiesItems = [Item]()
         
         self.request(endpoint) { resultData in
@@ -54,6 +54,7 @@ class APIHandler: NSObject {
                 var storiesIds = try JSONDecoder().decode([Int].self, from: resultData)
                 storiesIds = Array(storiesIds[0..<15])
                 
+                // TODO: Refactor this code below to use the new method `items(from:then:)`.
                 let dispatchQueue = DispatchQueue(label: "individualItemQueue", qos: .userInitiated)
                 let dispatchGroup = DispatchGroup.init()
                 
@@ -74,6 +75,29 @@ class APIHandler: NSObject {
         }
     }
     
+    /// Gets the objects of items based on a list of ids.
+    ///
+    /// - Parameters:
+    ///   - itemList: List of identifiers
+    ///   - completion: Action for when the request is finished.
+    func items(from itemList: [Int], then completion: @escaping ([Item]) -> Void) {
+        var items = [Item]()
+        
+        let dispatchQueue = DispatchQueue(label: "individualItemQueue", qos: .userInitiated)
+        let dispatchGroup = DispatchGroup.init()
+        
+        for id in itemList {
+            dispatchGroup.enter()
+            self.individualItem(for: id) { item in
+                items.append(item)
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: dispatchQueue, execute: {
+            completion(items)
+        })
+    }
     
     /// Fetch for an individual item by id.
     ///

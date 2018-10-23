@@ -27,8 +27,10 @@ class NewsFeedTableViewCell: UITableViewCell {
     func configureCell(item: Item) {
         self.titleText?.text = item.title
         
-        let url = URL(string: item.url)
-        self.urlText?.text = url?.host
+        if let url = item.url {
+            let url = URL(string: url)
+            self.urlText?.text = url?.host
+        }
         
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, yyyy"

@@ -22,6 +22,8 @@
 		5D62980A2178C8DC00D4373E /* FavoritesFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6298092178C8DC00D4373E /* FavoritesFeedViewController.swift */; };
 		5D62980C2178CC3F00D4373E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D62980B2178CC3F00D4373E /* DataManager.swift */; };
 		5D7567A5217DF3C000D8DA0D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7567A4217DF3C000D8DA0D /* SettingsViewController.swift */; };
+		5D7567A8217F581700D8DA0D /* CommentItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7567A6217F581700D8DA0D /* CommentItemTableViewCell.swift */; };
+		5D7567A9217F581700D8DA0D /* CommentItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D7567A7217F581700D8DA0D /* CommentItemTableViewCell.xib */; };
 		5DFDABCD2179EEC40061D7A4 /* CurrentNewsFeed.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5DFDABCB2179EEC40061D7A4 /* CurrentNewsFeed.xcdatamodeld */; };
 		5DFDABD02179FA9A0061D7A4 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFDABCF2179FA9A0061D7A4 /* ItemViewController.swift */; };
 /* End PBXBuildFile section */
@@ -65,6 +67,8 @@
 		5D6298092178C8DC00D4373E /* FavoritesFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesFeedViewController.swift; sourceTree = "<group>"; };
 		5D62980B2178CC3F00D4373E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		5D7567A4217DF3C000D8DA0D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		5D7567A6217F581700D8DA0D /* CommentItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentItemTableViewCell.swift; sourceTree = "<group>"; };
+		5D7567A7217F581700D8DA0D /* CommentItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentItemTableViewCell.xib; sourceTree = "<group>"; };
 		5DFDABCC2179EEC40061D7A4 /* CurrentNewsFeed.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CurrentNewsFeed.xcdatamodel; sourceTree = "<group>"; };
 		5DFDABCE2179F0360061D7A4 /* CurrentNewsFeed v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CurrentNewsFeed v2.xcdatamodel"; sourceTree = "<group>"; };
 		5DFDABCF2179FA9A0061D7A4 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 		5D6298062177857300D4373E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5D7567AA217F582B00D8DA0D /* CommentItemTableViewCell */,
 				5D62980521775C0400D4373E /* NewsFeedTableViewCell */,
 				5D6297CC2176132200D4373E /* ViewController.swift */,
 				5D6297FF2177554B00D4373E /* NewsFeedViewController.swift */,
@@ -170,6 +175,15 @@
 				5D7567A4217DF3C000D8DA0D /* SettingsViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		5D7567AA217F582B00D8DA0D /* CommentItemTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				5D7567A6217F581700D8DA0D /* CommentItemTableViewCell.swift */,
+				5D7567A7217F581700D8DA0D /* CommentItemTableViewCell.xib */,
+			);
+			path = CommentItemTableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D6297D82176132400D4373E /* LaunchScreen.storyboard in Resources */,
+				5D7567A9217F581700D8DA0D /* CommentItemTableViewCell.xib in Resources */,
 				5D6297D52176132400D4373E /* Assets.xcassets in Resources */,
 				5D62980421775BF800D4373E /* NewsFeedTableViewCell.xib in Resources */,
 				5D6297D02176132200D4373E /* Main.storyboard in Resources */,
@@ -306,6 +321,7 @@
 			files = (
 				5D6297CD2176132200D4373E /* ViewController.swift in Sources */,
 				5D62980321775BF800D4373E /* NewsFeedTableViewCell.swift in Sources */,
+				5D7567A8217F581700D8DA0D /* CommentItemTableViewCell.swift in Sources */,
 				5D7567A5217DF3C000D8DA0D /* SettingsViewController.swift in Sources */,
 				5D6297CB2176132200D4373E /* AppDelegate.swift in Sources */,
 				5D6298082178B5EF00D4373E /* Item.swift in Sources */,
