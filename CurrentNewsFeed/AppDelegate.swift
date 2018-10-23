@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Checking if a default feed is already configured.
         let defaults = UserDefaults.standard
         if defaults.object(forKey: "MainFeedURL") == nil {
-            defaults.set("/v0/topstories.json", forKey: "MainFeedURL")
+            defaults.set(APIEndpoints.topstories.rawValue, forKey: "MainFeedURL")
         }
         
         return true

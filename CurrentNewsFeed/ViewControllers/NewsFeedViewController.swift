@@ -9,13 +9,18 @@
 import UIKit
 
 class NewsFeedViewController: UIViewController {
-    var apiHandler = APIHandler()
-    var loadedNews: [Item] = []
-    var feedURLPath = ""
-    
     @IBOutlet weak var feedTableView: UITableView!
     
     var loadingMessageLabel = UILabel()
+    
+    var loadedNews: [Item] = [] {
+        didSet {
+            self.feedTableView.reloadData()
+        }
+    }
+    
+    var apiHandler = APIHandler()
+    var selectedAPIEndpoint: APIEndpoints?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +34,7 @@ class NewsFeedViewController: UIViewController {
         self.loadingMessageLabel.textAlignment = .center
         
         // First load.
-        self.loadNews()
+        self.checkFeedUpdates()
         
         if self.traitCollection.forceTouchCapability == .available {
             self.registerForPreviewing(with: self, sourceView: self.feedTableView)
@@ -39,21 +44,28 @@ class NewsFeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let urlPath = UserDefaults.standard.string(forKey: "MainFeedURL"),
-            urlPath != self.feedURLPath else { return }
-        
-        print("Appear", self.feedURLPath, urlPath)
-        
-        self.feedURLPath = urlPath
-        self.loadedNews = []
-        self.loadNews()
+        self.checkFeedUpdates()
     }
     
-    private func loadNews() {
-        self.apiHandler.listOfStories(from: Endpoint(path: self.feedURLPath)) { (news) in
-            DispatchQueue.main.async {
-                self.loadedNews = news
-                self.feedTableView.reloadData()
+    
+    /// Updates the data displayed in the tableview. Before that,
+    /// it does the necessary checks for the api requests.
+    private func checkFeedUpdates() {
+        let defaults = UserDefaults.standard
+        let saved = defaults.integer(forKey: "MainFeedURL")
+        
+        guard let selected = APIEndpoints(rawValue: saved) else { return }
+        
+        if selected != self.selectedAPIEndpoint {
+            self.selectedAPIEndpoint = selected
+            self.navigationItem.title = selected.info.label
+            self.loadedNews = []
+            
+            self.apiHandler.listOfStories(from: selected.info.endpoint) { news in
+                DispatchQueue.main.async {
+                    self.loadedNews = news
+                    self.feedTableView.reloadData()
+                }
             }
         }
     }

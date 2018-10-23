@@ -9,10 +9,9 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
-    let availableFeedsOptions = [
-        (label: "Top Stories", urlPath: "/v0/topstories.json"),
-        (label: "Show Stories", urlPath: "/v0/showstories.json")
-    ]
+    var availableFeedsOptions: [String] {
+        return APIEndpoints.allCases.map { "\($0.info.label)" }
+    }
     
     @IBOutlet weak var availableFeedsPicker: UIPickerView!
     
@@ -21,6 +20,9 @@ class SettingsViewController: UIViewController {
         
         self.availableFeedsPicker.delegate = self
         self.availableFeedsPicker.dataSource = self
+        
+        let selected = UserDefaults.standard.integer(forKey: "MainFeedURL")
+        self.availableFeedsPicker.selectRow(selected, inComponent: 0, animated: false)
     }
 
 }
@@ -32,15 +34,15 @@ extension SettingsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.availableFeedsOptions.count
+        return APIEndpoints.allCases.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.availableFeedsOptions[row].label
+        return APIEndpoints(rawValue: row)?.info.label
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // Save the setting to be used when requesting main page content.
-        UserDefaults.standard.set(self.availableFeedsOptions[row].urlPath, forKey: "MainFeedURL")
+        UserDefaults.standard.set(row, forKey: "MainFeedURL")
     }
 }

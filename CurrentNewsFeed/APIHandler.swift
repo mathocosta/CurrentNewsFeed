@@ -8,6 +8,26 @@
 
 import UIKit
 
+enum APIEndpoints: Int, CaseIterable {
+    case topstories
+    case askstories
+    case beststories
+    case showstories
+    
+    var info: (label: String, endpoint: Endpoint) {
+        switch self {
+        case .topstories:
+            return ("Top Stories", Endpoint(path: "/v0/topstories.json"))
+        case .askstories:
+            return ("Ask Stories", Endpoint(path: "/v0/askstories.json"))
+        case .beststories:
+            return ("Best Stories", Endpoint(path: "/v0/beststories.json"))
+        case .showstories:
+            return ("Show Stories", Endpoint(path: "/v0/showstories.json"))
+        }
+    }
+}
+
 struct Endpoint {
     let path: String
     
