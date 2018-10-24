@@ -14,6 +14,9 @@ class CommentItemTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.bodyText.isScrollEnabled = false
+        self.bodyText.isEditable = false
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -24,6 +27,6 @@ class CommentItemTableViewCell: UITableViewCell {
         guard let author = item.author, let body = item.body else { return }
         
         self.headerText.text = author
-        self.bodyText.text = body
+        self.bodyText.text = body.toAttributedString().string
     }
 }

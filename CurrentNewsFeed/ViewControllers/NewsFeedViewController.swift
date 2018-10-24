@@ -32,7 +32,7 @@ class NewsFeedViewController: UIViewController {
         self.feedTableView.register(UINib(nibName: "NewsFeedTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsFeedCell")
         
         // Default settings for the loading message.
-        self.loadingMessageLabel.text = "Carregando..."
+        self.loadingMessageLabel.text = "Loading Stories..."
         self.loadingMessageLabel.textAlignment = .center
         
         // First load.

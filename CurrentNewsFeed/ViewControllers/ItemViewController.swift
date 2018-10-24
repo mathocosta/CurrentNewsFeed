@@ -14,6 +14,8 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var urlText: UILabel!
     @IBOutlet weak var commentsTableView: UITableView!
     
+    var loadingMessageLabel = UILabel()
+    
     var loadedComments: [Item] = []
     var apiHandler = APIHandler()
     
@@ -43,6 +45,9 @@ class ItemViewController: UIViewController {
         
         self.navigationItem.largeTitleDisplayMode = .never
         
+        self.loadingMessageLabel.text = "Loading Comments..."
+        self.loadingMessageLabel.textAlignment = .center
+        
         self.commentsTableView.delegate = self
         self.commentsTableView.dataSource = self
         self.commentsTableView.register(UINib(nibName: "CommentItemTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentItemCell")
@@ -58,6 +63,7 @@ class ItemViewController: UIViewController {
         if let kids = self.item?.kids {
             self.apiHandler.items(from: kids) { items in
                 DispatchQueue.main.async {
+                    print(items)
                     self.loadedComments = items
                     self.commentsTableView.reloadData()
                 }
@@ -104,7 +110,10 @@ class ItemViewController: UIViewController {
 
 extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.loadedComments.count
+        let count = self.loadedComments.count
+        self.commentsTableView.backgroundView = count == 0 ? self.loadingMessageLabel : nil
+        
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
