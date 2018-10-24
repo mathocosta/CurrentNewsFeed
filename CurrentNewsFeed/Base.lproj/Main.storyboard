@@ -211,24 +211,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Ad-bK-fWb" userLabel="Available feeds">
-                                <rect key="frame" x="0.0" y="113" width="320" height="216"/>
-                            </pickerView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mRz-60-MfW">
+                                <rect key="frame" x="16" y="113" width="288" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="mRz-60-MfW" firstAttribute="top" secondItem="BI7-KD-9sI" secondAttribute="bottom" constant="8" id="7M8-qx-6T6"/>
                             <constraint firstItem="0YQ-6i-9jv" firstAttribute="trailing" secondItem="BI7-KD-9sI" secondAttribute="trailing" constant="16" id="9Bc-W6-d4f"/>
                             <constraint firstItem="BI7-KD-9sI" firstAttribute="top" secondItem="0YQ-6i-9jv" secondAttribute="top" constant="20" id="AfZ-3B-jWL"/>
+                            <constraint firstItem="mRz-60-MfW" firstAttribute="trailing" secondItem="BI7-KD-9sI" secondAttribute="trailing" id="F0d-k3-Ziv"/>
                             <constraint firstItem="BI7-KD-9sI" firstAttribute="leading" secondItem="0YQ-6i-9jv" secondAttribute="leading" constant="16" id="Skt-Jf-N1f"/>
-                            <constraint firstItem="1Ad-bK-fWb" firstAttribute="top" secondItem="BI7-KD-9sI" secondAttribute="bottom" constant="8" id="ZxB-5U-Jyg"/>
-                            <constraint firstItem="1Ad-bK-fWb" firstAttribute="leading" secondItem="0YQ-6i-9jv" secondAttribute="leading" id="doN-bc-Tr3"/>
-                            <constraint firstItem="1Ad-bK-fWb" firstAttribute="trailing" secondItem="0YQ-6i-9jv" secondAttribute="trailing" id="t0M-Jl-Llb"/>
+                            <constraint firstItem="mRz-60-MfW" firstAttribute="leading" secondItem="BI7-KD-9sI" secondAttribute="leading" id="hIp-d4-BIv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0YQ-6i-9jv"/>
                     </view>
                     <navigationItem key="navigationItem" id="HIb-Ch-KuS"/>
                     <connections>
-                        <outlet property="availableFeedsPicker" destination="1Ad-bK-fWb" id="lOi-dS-NLd"/>
+                        <outlet property="defaultFeedField" destination="mRz-60-MfW" id="LRK-ge-LUn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tkj-E3-LX1" userLabel="First Responder" sceneMemberID="firstResponder"/>

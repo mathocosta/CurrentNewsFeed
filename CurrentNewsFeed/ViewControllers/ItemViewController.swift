@@ -62,7 +62,6 @@ class ItemViewController: UIViewController {
         if let kids = self.item?.kids {
             self.apiHandler.items(from: kids) { items in
                 DispatchQueue.main.async {
-                    print(items)
                     self.loadedComments = items
                     self.commentsTableView.reloadData()
                 }

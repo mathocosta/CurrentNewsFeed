@@ -107,6 +107,7 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.feedTableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "DisplayItemSegue", sender: self.loadedNews[indexPath.row])
     }
 }
