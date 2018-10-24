@@ -12,6 +12,7 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var authorText: UILabel!
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var commentsTableView: UITableView!
+    @IBOutlet weak var rightButton: UIBarButtonItem!
     
     var loadingMessageLabel = UILabel()
     
@@ -19,7 +20,8 @@ class ItemViewController: UIViewController {
     var apiHandler = APIHandler()
     
     var item: Item?
-    var previousController: UIViewController?
+    var cellIndexPath: IndexPath?
+    var delegate: ItemViewControllerDelegate?
     
     lazy var previewActions: [UIPreviewActionItem] = {
         /// Action to save a favorite, this is done by getting the value of the item
@@ -51,8 +53,12 @@ class ItemViewController: UIViewController {
         self.commentsTableView.dataSource = self
         self.commentsTableView.register(UINib(nibName: "CommentItemTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentItemCell")
         
-        if self.previousController is FavoritesFeedViewController {
-            self.navigationItem.rightBarButtonItem = nil
+        // If the delegate is not nil, then it's because they come from the favorites screen.
+        // FIXME: Not the best way to do this, but it will stay that way for now.
+        if self.delegate != nil {
+            self.rightButton.title = "Remove"
+        } else {
+            self.rightButton.title = "Save"
         }
         
         if let item = item {
@@ -83,10 +89,16 @@ class ItemViewController: UIViewController {
         }
     }
 
-    @IBAction func saveFavoriteAction(_ sender: UIBarButtonItem) {
+    @IBAction func rightButtonAction(_ sender: UIBarButtonItem) {
         guard let item = self.item else { return }
         
-        self.save(favorite: item)
+        // FIXME: Again, not the best way to do this, but it will stay that way for now.
+        if self.delegate == nil {
+            self.save(favorite: item)
+        } else {
+            self.delegate?.itemDeleted(self.item!, at: self.cellIndexPath!)
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     private func save(favorite item: Item) {

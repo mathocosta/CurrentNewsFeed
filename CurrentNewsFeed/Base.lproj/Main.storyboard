@@ -91,15 +91,16 @@
                         <viewLayoutGuide key="safeArea" id="Dy5-nd-tTZ"/>
                     </view>
                     <navigationItem key="navigationItem" id="QEI-4n-38W">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="k2d-YU-RjU">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="k2d-YU-RjU">
                             <connections>
-                                <action selector="saveFavoriteAction:" destination="gaC-cY-HWT" id="Y5V-Kd-qMp"/>
+                                <action selector="rightButtonAction:" destination="gaC-cY-HWT" id="0FG-xL-OQF"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="authorText" destination="OZG-Xr-rcs" id="FTm-tL-jem"/>
                         <outlet property="commentsTableView" destination="ZLD-Cy-BMq" id="7P5-hf-N7w"/>
+                        <outlet property="rightButton" destination="k2d-YU-RjU" id="CqM-MD-Ziv"/>
                         <outlet property="titleText" destination="2ys-os-IKz" id="6oG-gA-wxN"/>
                     </connections>
                 </viewController>

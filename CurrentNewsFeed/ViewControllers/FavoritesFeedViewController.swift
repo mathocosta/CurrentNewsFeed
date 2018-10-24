@@ -49,10 +49,13 @@ class FavoritesFeedViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "DisplayItemSegue" {
             guard let destination = segue.destination as? ItemViewController,
-                let favorite = sender as? Favorite else { return }
+                let indexPath = sender as? IndexPath else { return }
             
+            let favorite = self.fetchedResultController.object(at: indexPath)
+            
+            destination.cellIndexPath = indexPath
             destination.item = Item(from: favorite)
-            destination.previousController = self
+            destination.delegate = self
             destination.hidesBottomBarWhenPushed = true
         }
     }
@@ -90,7 +93,15 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "DisplayItemSegue", sender: self.fetchedResultController.object(at: indexPath))
+        performSegue(withIdentifier: "DisplayItemSegue", sender: indexPath)
+    }
+}
+
+// MARK: - ItemViewController delegate implementation.
+extension FavoritesFeedViewController: ItemViewControllerDelegate {
+    func itemDeleted(_ item: Item, at position: IndexPath) {
+        let favorite = self.fetchedResultController.object(at: position)
+        DataManager.context.delete(favorite)
     }
 }
 
