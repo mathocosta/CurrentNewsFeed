@@ -9,6 +9,10 @@
 import Foundation
 
 extension String {
+    
+    /// Returns a String from a HTML data string.
+    ///
+    /// - Returns: HTML processing result.
     func toAttributedString() -> NSAttributedString {
         guard let data = data(using: .utf8) else { return NSAttributedString() }
         

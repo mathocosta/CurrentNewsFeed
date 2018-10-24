@@ -128,7 +128,7 @@
 				5D6297FD21761B2700D4373E /* APIHandler.swift */,
 				5D62980B2178CC3F00D4373E /* DataManager.swift */,
 				5D6298072178B5EF00D4373E /* Item.swift */,
-				5D7567AD21808EAB00D8DA0D /* String+HTML.swift */,
+				5D7567AF218092FE00D8DA0D /* Extensions */,
 				5D6298062177857300D4373E /* ViewControllers */,
 				5D6297CE2176132200D4373E /* Main.storyboard */,
 				5D6297D42176132400D4373E /* Assets.xcassets */,
@@ -187,6 +187,14 @@
 				5D7567AB218088F600D8DA0D /* CommentItemTableViewCell.xib */,
 			);
 			path = CommentItemTableViewCell;
+			sourceTree = "<group>";
+		};
+		5D7567AF218092FE00D8DA0D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5D7567AD21808EAB00D8DA0D /* String+HTML.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
