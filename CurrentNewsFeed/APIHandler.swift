@@ -6,7 +6,7 @@
 //  Copyright © 2018 Matheus Costa. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 enum APIEndpoints: Int, CaseIterable {
     case topstories

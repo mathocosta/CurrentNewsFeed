@@ -15,8 +15,13 @@ class CommentItemTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.selectionStyle = .none
+        
         self.bodyText.isScrollEnabled = false
         self.bodyText.isEditable = false
+        // Remove padding.
+        self.bodyText.textContainerInset = UIEdgeInsets.zero
+        self.bodyText.textContainer.lineFragmentPadding = 0
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -26,7 +31,11 @@ class CommentItemTableViewCell: UITableViewCell {
     func configureCell(item: Item) {
         guard let author = item.author, let body = item.body else { return }
         
-        self.headerText.text = author
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy"
+        let published = formatter.string(from: item.published)
+        
+        self.headerText.text = "by \(author), at \(published)"
         self.bodyText.text = body.toAttributedString().string
     }
 }

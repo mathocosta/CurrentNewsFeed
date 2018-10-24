@@ -11,7 +11,6 @@ import UIKit
 class ItemViewController: UIViewController {
     @IBOutlet weak var authorText: UILabel!
     @IBOutlet weak var titleText: UILabel!
-    @IBOutlet weak var urlText: UILabel!
     @IBOutlet weak var commentsTableView: UITableView!
     
     var loadingMessageLabel = UILabel()
@@ -81,12 +80,7 @@ class ItemViewController: UIViewController {
         formatter.dateFormat = "MMM d, yyyy h:mm"
         
         if let author = item.author {
-            self.authorText?.text = "by \(author) at \(formatter.string(from: item.published))"
-        }
-        
-        if let url = item.url {
-            let url = URL(string: url)
-            self.urlText?.text = url?.host
+            self.authorText?.text = "by \(author), at \(formatter.string(from: item.published))"
         }
     }
 

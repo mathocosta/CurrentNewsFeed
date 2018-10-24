@@ -49,12 +49,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xW5-wT-Qum" userLabel="URL">
-                                <rect key="frame" x="16" y="149.5" width="136" height="18"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OZG-Xr-rcs" userLabel="Author">
                                 <rect key="frame" x="16" y="84" width="288" height="18"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
@@ -68,23 +62,29 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZLD-Cy-BMq">
-                                <rect key="frame" x="0.0" y="187.5" width="320" height="331.5"/>
+                                <rect key="frame" x="0.0" y="202.5" width="320" height="316.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bDy-yT-vyV">
+                                <rect key="frame" x="16" y="171.5" width="288" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="OZG-Xr-rcs" firstAttribute="trailing" secondItem="2ys-os-IKz" secondAttribute="trailing" id="2J2-sZ-j5n"/>
                             <constraint firstItem="OZG-Xr-rcs" firstAttribute="top" secondItem="Dy5-nd-tTZ" secondAttribute="top" constant="20" id="6D6-gd-LMt"/>
                             <constraint firstItem="2ys-os-IKz" firstAttribute="top" secondItem="OZG-Xr-rcs" secondAttribute="bottom" constant="8" id="9ZM-J3-Vcc"/>
+                            <constraint firstItem="bDy-yT-vyV" firstAttribute="top" secondItem="2ys-os-IKz" secondAttribute="bottom" constant="30" id="LgF-qR-0hy"/>
                             <constraint firstItem="OZG-Xr-rcs" firstAttribute="leading" secondItem="2ys-os-IKz" secondAttribute="leading" id="MLp-u7-UBB"/>
                             <constraint firstItem="2ys-os-IKz" firstAttribute="leading" secondItem="Dy5-nd-tTZ" secondAttribute="leading" constant="16" id="MVP-wC-EqQ"/>
-                            <constraint firstItem="ZLD-Cy-BMq" firstAttribute="top" secondItem="xW5-wT-Qum" secondAttribute="bottom" constant="20" id="THh-9W-HLJ"/>
-                            <constraint firstItem="xW5-wT-Qum" firstAttribute="leading" secondItem="2ys-os-IKz" secondAttribute="leading" id="cXY-Vf-iQf"/>
+                            <constraint firstItem="ZLD-Cy-BMq" firstAttribute="top" secondItem="bDy-yT-vyV" secondAttribute="bottom" constant="10" id="S4D-HG-chv"/>
+                            <constraint firstItem="bDy-yT-vyV" firstAttribute="leading" secondItem="2ys-os-IKz" secondAttribute="leading" id="YiI-zO-MWE"/>
+                            <constraint firstItem="bDy-yT-vyV" firstAttribute="trailing" secondItem="2ys-os-IKz" secondAttribute="trailing" id="a9o-pM-Rip"/>
                             <constraint firstItem="ZLD-Cy-BMq" firstAttribute="trailing" secondItem="Dy5-nd-tTZ" secondAttribute="trailing" id="maJ-ba-s6u"/>
                             <constraint firstItem="Dy5-nd-tTZ" firstAttribute="trailing" secondItem="2ys-os-IKz" secondAttribute="trailing" constant="16" id="mda-li-itv"/>
-                            <constraint firstItem="xW5-wT-Qum" firstAttribute="trailing" secondItem="2ys-os-IKz" secondAttribute="trailing" multiplier="0.5" id="rb7-m6-gr0"/>
-                            <constraint firstItem="xW5-wT-Qum" firstAttribute="top" secondItem="2ys-os-IKz" secondAttribute="bottom" constant="8" id="urQ-hQ-tG6"/>
                             <constraint firstItem="Dy5-nd-tTZ" firstAttribute="bottom" secondItem="ZLD-Cy-BMq" secondAttribute="bottom" id="xqZ-1v-lhi"/>
                             <constraint firstItem="ZLD-Cy-BMq" firstAttribute="leading" secondItem="Dy5-nd-tTZ" secondAttribute="leading" id="zcw-rc-kR6"/>
                         </constraints>
@@ -101,7 +101,6 @@
                         <outlet property="authorText" destination="OZG-Xr-rcs" id="FTm-tL-jem"/>
                         <outlet property="commentsTableView" destination="ZLD-Cy-BMq" id="7P5-hf-N7w"/>
                         <outlet property="titleText" destination="2ys-os-IKz" id="6oG-gA-wxN"/>
-                        <outlet property="urlText" destination="xW5-wT-Qum" id="DzM-Rw-nQT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ae4-av-KnP" userLabel="First Responder" sceneMemberID="firstResponder"/>

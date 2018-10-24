@@ -10,11 +10,12 @@ import UIKit
 
 class NewsFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var titleText: UILabel!
-    @IBOutlet weak var urlText: UILabel!
-    @IBOutlet weak var dateText: UILabel!
+    @IBOutlet weak var subTitleText: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.accessoryType = .disclosureIndicator
         
         self.titleText.numberOfLines = 0
         self.titleText.lineBreakMode = .byWordWrapping
@@ -27,13 +28,12 @@ class NewsFeedTableViewCell: UITableViewCell {
     func configureCell(item: Item) {
         self.titleText?.text = item.title
         
-        if let url = item.url {
-            let url = URL(string: url)
-            self.urlText?.text = url?.host
-        }
-        
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, yyyy"
-        self.dateText?.text = formatter.string(from: item.published)
+        self.subTitleText?.text = formatter.string(from: item.published)
+        
+        if let url = item.url, let host = URL(string: url)?.host {
+            self.subTitleText?.text?.append(contentsOf: " | \(host)")
+        }
     }
 }
