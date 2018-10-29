@@ -28,13 +28,16 @@ class FavoritesFeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.title = "Favorites"
+        
         self.favoritesTableView.delegate = self
         self.favoritesTableView.dataSource = self
         self.favoritesTableView.register(
             UINib(nibName: "NewsFeedTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsFeedCell")
         
         // Default settings for the empty favorites list label.
-        self.emptyMessageLabel.text = "Não há favoritos adicionados"
+        self.emptyMessageLabel.text = "No favorites added"
         self.emptyMessageLabel.textAlignment = .center
         
         do {
