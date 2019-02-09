@@ -7,19 +7,10 @@
 //
 
 import UIKit
-import CoreData
 
 class FavoritesFeedViewController: UIViewController {
-    lazy var fetchedResultController: NSFetchedResultsController<Favorite> = {
-        let request: NSFetchRequest<Favorite> = Favorite.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "savedOn", ascending: false)]
-        
-        let controller = NSFetchedResultsController(
-            fetchRequest: request, managedObjectContext: DataManager.context, sectionNameKeyPath: nil, cacheName: nil)
-        controller.delegate = self
-        
-        return controller
-    }()
+    
+    var favoritesViewModel: FavoritesFeedViewModel!
     
     var emptyMessageLabel = UILabel()
     
@@ -37,11 +28,8 @@ class FavoritesFeedViewController: UIViewController {
         self.emptyMessageLabel.text = "Não há favoritos adicionados"
         self.emptyMessageLabel.textAlignment = .center
         
-        do {
-            try self.fetchedResultController.performFetch()
-        } catch let fetchError {
-            print(fetchError.localizedDescription)
-        }
+        self.favoritesViewModel = FavoritesFeedViewModel()
+        self.favoritesViewModel.delegate = self
     }
     
 
@@ -51,7 +39,7 @@ class FavoritesFeedViewController: UIViewController {
             guard let destination = segue.destination as? ItemViewController,
                 let indexPath = sender as? IndexPath else { return }
             
-            let favorite = self.fetchedResultController.object(at: indexPath)
+            let favorite = self.favoritesViewModel.favorite(at: indexPath)
             
             destination.cellIndexPath = indexPath
             destination.itemViewModel = ItemViewModel(item: Item(from: favorite))
@@ -63,14 +51,13 @@ class FavoritesFeedViewController: UIViewController {
 
 // MARK: - FeedTableView delegate and data source implementation.
 extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let favorites = self.fetchedResultController.fetchedObjects else {
-            return 0
-        }
-        print("favorites count " , favorites.count)
-        self.favoritesTableView.backgroundView = favorites.count == 0 ? self.emptyMessageLabel : nil
+        let numberOfFavorites = self.favoritesViewModel.favoritesCount
+        print("favorites count " , numberOfFavorites)
+        self.favoritesTableView.backgroundView = numberOfFavorites == 0 ? self.emptyMessageLabel : nil
 
-        return favorites.count
+        return numberOfFavorites
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -78,7 +65,7 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
             fatalError("The dequeued cell is not an instance of NewsFeedTableViewCell.")
         }
 
-        let current = self.fetchedResultController.object(at: indexPath)
+        let current = self.favoritesViewModel.favorite(at: indexPath)
         let item = Item(from: current)
         cell.configureCell(item: item)
 
@@ -87,35 +74,30 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let favorite = self.fetchedResultController.object(at: indexPath)
-            DataManager.context.delete(favorite)
+            self.favoritesViewModel.removeFavorite(at: indexPath)
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "DisplayItemSegue", sender: indexPath)
     }
+    
 }
 
 // MARK: - ItemViewController delegate implementation.
 extension FavoritesFeedViewController: ItemViewControllerDelegate {
+    
     func itemDeleted(_ item: ItemViewModel, at position: IndexPath) {
-        let favorite = self.fetchedResultController.object(at: position)
-        DataManager.context.delete(favorite)
+        self.favoritesViewModel.removeFavorite(at: position)
     }
+    
 }
 
-// MARK: - NSFetchedResultsController delegate implementation.
-extension FavoritesFeedViewController: NSFetchedResultsControllerDelegate {
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .delete:
-            if let indexPath = indexPath {
-                self.favoritesTableView.deleteRows(at: [indexPath], with: .fade)
-            }
-            break
-        default:
-            self.favoritesTableView.reloadData()
-        }
+// MARK: - FavoritesViewModel delegate implementation
+extension FavoritesFeedViewController: FavoritesViewModelDelegate {
+    
+    func favoriteRemoved(_ favorite: Favorite, at indexPath: IndexPath) {
+        self.favoritesTableView.deleteRows(at: [indexPath], with: .fade)
     }
+    
 }

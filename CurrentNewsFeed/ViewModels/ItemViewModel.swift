@@ -9,7 +9,7 @@
 import Foundation
 
 class ItemViewModel {
-    // MARK: - Instance Properties
+
     let apiHandler: APIHandler
     
     private let item: Item

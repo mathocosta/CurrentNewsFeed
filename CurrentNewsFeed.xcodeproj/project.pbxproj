@@ -23,6 +23,7 @@
 		5D743F7E220F132E00089563 /* FavoritesFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D743F7D220F132E00089563 /* FavoritesFeedViewModel.swift */; };
 		5D743F82220F159200089563 /* NewsFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D743F81220F159200089563 /* NewsFeedViewModel.swift */; };
 		5D743F84220F191200089563 /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D743F83220F191200089563 /* ItemViewModel.swift */; };
+		5D743F87220F5EFE00089563 /* FavoritesFeedViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D743F86220F5EFE00089563 /* FavoritesFeedViewModelDelegate.swift */; };
 		5D7567A5217DF3C000D8DA0D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7567A4217DF3C000D8DA0D /* SettingsViewController.swift */; };
 		5D7567A8217F581700D8DA0D /* CommentItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7567A6217F581700D8DA0D /* CommentItemTableViewCell.swift */; };
 		5D7567AC218088F600D8DA0D /* CommentItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D7567AB218088F600D8DA0D /* CommentItemTableViewCell.xib */; };
@@ -72,6 +73,7 @@
 		5D743F7D220F132E00089563 /* FavoritesFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesFeedViewModel.swift; sourceTree = "<group>"; };
 		5D743F81220F159200089563 /* NewsFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedViewModel.swift; sourceTree = "<group>"; };
 		5D743F83220F191200089563 /* ItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewModel.swift; sourceTree = "<group>"; };
+		5D743F86220F5EFE00089563 /* FavoritesFeedViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesFeedViewModelDelegate.swift; sourceTree = "<group>"; };
 		5D7567A4217DF3C000D8DA0D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		5D7567A6217F581700D8DA0D /* CommentItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentItemTableViewCell.swift; sourceTree = "<group>"; };
 		5D7567AB218088F600D8DA0D /* CommentItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentItemTableViewCell.xib; sourceTree = "<group>"; };
@@ -133,13 +135,13 @@
 				5D6298062177857300D4373E /* ViewControllers */,
 				5D743F7C220F12E000089563 /* ViewModels */,
 				5D743F85220F191E00089563 /* Models */,
-				5D6297CA2176132200D4373E /* AppDelegate.swift */,
-				5D6297FD21761B2700D4373E /* APIHandler.swift */,
-				5D62980B2178CC3F00D4373E /* DataManager.swift */,
 				5D7567B22180B64C00D8DA0D /* Protocols */,
 				5D7567AF218092FE00D8DA0D /* Extensions */,
-				5D6297CE2176132200D4373E /* Main.storyboard */,
 				5D6297D42176132400D4373E /* Assets.xcassets */,
+				5D6297FD21761B2700D4373E /* APIHandler.swift */,
+				5D62980B2178CC3F00D4373E /* DataManager.swift */,
+				5D6297CA2176132200D4373E /* AppDelegate.swift */,
+				5D6297CE2176132200D4373E /* Main.storyboard */,
 				5D6297D62176132400D4373E /* LaunchScreen.storyboard */,
 				5DFDABCB2179EEC40061D7A4 /* CurrentNewsFeed.xcdatamodeld */,
 				5D6297D92176132400D4373E /* Info.plist */,
@@ -226,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				5D7567B02180B64500D8DA0D /* ItemViewControllerDelegate.swift */,
+				5D743F86220F5EFE00089563 /* FavoritesFeedViewModelDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				5D7567B12180B64500D8DA0D /* ItemViewControllerDelegate.swift in Sources */,
 				5D743F84220F191200089563 /* ItemViewModel.swift in Sources */,
 				5D62980A2178C8DC00D4373E /* FavoritesFeedViewController.swift in Sources */,
+				5D743F87220F5EFE00089563 /* FavoritesFeedViewModelDelegate.swift in Sources */,
 				5DFDABCD2179EEC40061D7A4 /* CurrentNewsFeed.xcdatamodeld in Sources */,
 				5DFDABD02179FA9A0061D7A4 /* ItemViewController.swift in Sources */,
 				5D62980C2178CC3F00D4373E /* DataManager.swift in Sources */,
