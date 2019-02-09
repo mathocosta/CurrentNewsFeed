@@ -29,7 +29,7 @@ class NewsFeedViewController: UIViewController {
         
         self.feedTableView.delegate = self
         self.feedTableView.dataSource = self
-        self.feedTableView.register(UINib(nibName: "NewsFeedTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsFeedCell")
+        self.feedTableView.register(UINib(nibName: "FeedTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsFeedCell")
         
         // Default settings for the loading message.
         self.loadingMessageLabel.text = "Loading Stories..."
@@ -78,7 +78,7 @@ class NewsFeedViewController: UIViewController {
             guard let destination = segue.destination as? ItemViewController,
                 let item = sender as? Item else { return }
             
-            destination.item = item
+            destination.itemViewModel = ItemViewModel(item: item)
             destination.hidesBottomBarWhenPushed = true
         }
     }
@@ -96,7 +96,7 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsFeedCell", for: indexPath) as? NewsFeedTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsFeedCell", for: indexPath) as? FeedTableViewCell else {
             fatalError("The dequeued cell is not an instance of NewsFeedTableViewCell.")
         }
         
@@ -121,7 +121,7 @@ extension NewsFeedViewController: UIViewControllerPreviewingDelegate {
         guard let itemViewController = storyboard?.instantiateViewController(withIdentifier: "ItemViewController") as? ItemViewController else { return nil }
         
         let item = self.loadedNews[indexPath.row]
-        itemViewController.item = item
+        itemViewController.itemViewModel = ItemViewModel(item: item)
         itemViewController.preferredContentSize = CGSize(width: 0.0, height: 320)
         previewingContext.sourceRect = cell.frame
         

@@ -31,7 +31,7 @@ class FavoritesFeedViewController: UIViewController {
         self.favoritesTableView.delegate = self
         self.favoritesTableView.dataSource = self
         self.favoritesTableView.register(
-            UINib(nibName: "NewsFeedTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsFeedCell")
+            UINib(nibName: "FeedTableViewCell", bundle: nil), forCellReuseIdentifier: "FavoritesFeedCell")
         
         // Default settings for the empty favorites list label.
         self.emptyMessageLabel.text = "Não há favoritos adicionados"
@@ -54,7 +54,7 @@ class FavoritesFeedViewController: UIViewController {
             let favorite = self.fetchedResultController.object(at: indexPath)
             
             destination.cellIndexPath = indexPath
-            destination.item = Item(from: favorite)
+            destination.itemViewModel = ItemViewModel(item: Item(from: favorite))
             destination.delegate = self
             destination.hidesBottomBarWhenPushed = true
         }
@@ -74,7 +74,7 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsFeedCell", for: indexPath) as? NewsFeedTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavoritesFeedCell", for: indexPath) as? FeedTableViewCell else {
             fatalError("The dequeued cell is not an instance of NewsFeedTableViewCell.")
         }
 
@@ -99,7 +99,7 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
 
 // MARK: - ItemViewController delegate implementation.
 extension FavoritesFeedViewController: ItemViewControllerDelegate {
-    func itemDeleted(_ item: Item, at position: IndexPath) {
+    func itemDeleted(_ item: ItemViewModel, at position: IndexPath) {
         let favorite = self.fetchedResultController.object(at: position)
         DataManager.context.delete(favorite)
     }

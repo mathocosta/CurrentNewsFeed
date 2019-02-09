@@ -28,7 +28,7 @@ struct Item: Decodable {
         case url
     }
     
-    /// Init from Favorite NSManagedObject, it is used to
+    /// Custom init from Favorite NSManagedObject, it is used to
     /// build the table view cell on favorites view controller.
     ///
     /// - Parameter favorite: Favorite NSManagedObject

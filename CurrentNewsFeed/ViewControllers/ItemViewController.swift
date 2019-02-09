@@ -16,10 +16,7 @@ class ItemViewController: UIViewController {
     
     var loadingMessageLabel = UILabel()
     
-    var loadedComments: [Item] = []
-    var apiHandler = APIHandler()
-    
-    var item: Item?
+    var itemViewModel: ItemViewModel!
     var cellIndexPath: IndexPath?
     var delegate: ItemViewControllerDelegate?
     
@@ -27,11 +24,8 @@ class ItemViewController: UIViewController {
         /// Action to save a favorite, this is done by getting the value of the item
         /// property that exists in the viewcontroller.
         let addFavoriteAction = UIPreviewAction(
-            title: "Adicionar Favorito", style: .default, handler: { action, viewController in
-                guard let vc = viewController as? ItemViewController,
-                    let item = vc.item else { return }
-                
-                self.save(favorite: item)
+            title: "Adicionar Favorito", style: .default, handler: { _, _ in
+                self.itemViewModel.saveAsFavorite()
             }
         )
         return [addFavoriteAction]
@@ -61,61 +55,36 @@ class ItemViewController: UIViewController {
             self.rightButton.title = "Save"
         }
         
-        if let item = item {
-            self.configureView(item: item)
-        }
+        self.titleText.text = self.itemViewModel.titleText
+        self.authorText.text = self.itemViewModel.subtitleText
         
-        if let kids = self.item?.kids {
-            self.apiHandler.items(from: kids) { items in
-                DispatchQueue.main.async {
-                    self.loadedComments = items
-                    self.commentsTableView.reloadData()
+        if self.itemViewModel.hasKids {
+            self.itemViewModel.fetchKids { (success) in
+                if success {
+                    DispatchQueue.main.async {
+                        self.commentsTableView.reloadData()
+                    }
                 }
             }
         }
     }
-    
-    /// Configure view with the data passed via paramenter.
-    ///
-    /// - Parameter item: Item object with the data to be used.
-    func configureView(item: Item) {
-        self.titleText?.text = item.title
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, yyyy h:mm"
-        
-        if let author = item.author {
-            self.authorText?.text = "by \(author), at \(formatter.string(from: item.published))"
-        }
-    }
 
     @IBAction func rightButtonAction(_ sender: UIBarButtonItem) {
-        guard let item = self.item else { return }
-        
         // FIXME: Again, not the best way to do this, but it will stay that way for now.
         if self.delegate == nil {
-            self.save(favorite: item)
+            self.itemViewModel.saveAsFavorite()
         } else {
-            self.delegate?.itemDeleted(self.item!, at: self.cellIndexPath!)
+            self.delegate?.itemDeleted(self.itemViewModel, at: self.cellIndexPath!)
             self.navigationController?.popViewController(animated: true)
         }
     }
     
-    private func save(favorite item: Item) {
-        let favorite = Favorite(context: DataManager.context)
-        favorite.title = item.title
-        favorite.type = item.type
-        favorite.url = item.url
-        favorite.published = item.published
-        favorite.savedOn = Date()
-        
-        DataManager.saveContext()
-    }
 }
 
 extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = self.loadedComments.count
+        let count = self.itemViewModel.fetchedKids.count
         self.commentsTableView.backgroundView = count == 0 ? self.loadingMessageLabel : nil
         
         return count
@@ -126,9 +95,10 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
             fatalError("The dequeued cell is not an instance of CommentItemTableViewCell.")
         }
         
-        let current = self.loadedComments[indexPath.row]
+        let current = self.itemViewModel.fetchedKids[indexPath.row]
         cell.configureCell(item: current)
         
         return cell
     }
+    
 }

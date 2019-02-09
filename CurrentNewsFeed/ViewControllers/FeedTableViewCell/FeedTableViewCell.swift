@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewsFeedTableViewCell: UITableViewCell {
+class FeedTableViewCell: UITableViewCell {
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var subTitleText: UILabel!
     

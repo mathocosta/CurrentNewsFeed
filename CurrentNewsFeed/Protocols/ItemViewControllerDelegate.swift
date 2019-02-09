@@ -9,5 +9,5 @@
 import Foundation
 
 protocol ItemViewControllerDelegate {
-    func itemDeleted(_ item: Item, at position: IndexPath)
+    func itemDeleted(_ item: ItemViewModel, at position: IndexPath)
 }
