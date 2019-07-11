@@ -23,6 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.set(APIEndpoints.topstories.rawValue, forKey: "MainFeedURL")
         }
         
+        self.window = UIWindow()
+        self.window?.makeKeyAndVisible()
+        self.window?.rootViewController = SettingsViewController()
+        
         return true
     }
 
