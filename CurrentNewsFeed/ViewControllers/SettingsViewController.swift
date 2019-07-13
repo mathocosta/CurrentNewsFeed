@@ -27,6 +27,8 @@ final class SettingsViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        let itemImage = UIImage(named: "settings")
+        self.navigationController?.tabBarItem = UITabBarItem(title: "Settings", image: itemImage, tag: 0)
         self.navigationItem.title = "Settings"
         
         if let settingsView = self.view as? SettingsView {
@@ -55,6 +57,7 @@ final class SettingsViewController: UIViewController {
 
 // MARK: - AvailableFeedsPicker delegate and data source implementation.
 extension SettingsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -70,4 +73,5 @@ extension SettingsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.selectedChoice = row
     }
+    
 }

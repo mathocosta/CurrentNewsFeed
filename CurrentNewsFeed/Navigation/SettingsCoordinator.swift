@@ -10,7 +10,7 @@ import UIKit
 
 final class SettingsCoordinator: Coordinator {
     
-    var childCoordinators: [Coordinator]
+    var childCoordinators: [Coordinator]?
     
     var rootViewController: UIViewController {
         return navigationController
