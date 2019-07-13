@@ -15,7 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Checking if a default feed is already configured.
         let defaults = UserDefaults.standard
@@ -25,7 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow()
         self.window?.makeKeyAndVisible()
-        self.window?.rootViewController = SettingsViewController()
+        
+        let tabBarController = UITabBarController()
+        let appCoordinator = AppCoordinator(tabBarController: tabBarController)
+        appCoordinator.start()
+        
+        self.window?.rootViewController = tabBarController
         
         return true
     }
