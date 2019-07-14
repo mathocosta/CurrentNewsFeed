@@ -8,38 +8,44 @@
 
 import UIKit
 
-class NewsFeedViewController: UIViewController {
-    @IBOutlet weak var feedTableView: UITableView!
-    
-    var loadingMessageLabel = UILabel()
-    
+final class NewsFeedViewController: UIViewController {
+
+    // MARK: - Properties
+    var coordinator: NewsFeedCoordinator?
+    var selectedAPIEndpoint: APIEndpoints?
+
+    let itemsFeedView = ItemsFeedView()
+    let apiHandler = APIHandler()
+
     var loadedNews: [Item] = [] {
         didSet {
-            self.feedTableView.reloadData()
+            self.itemsFeedView.feedTableView.reloadData()
         }
     }
-    
-    var apiHandler = APIHandler()
-    var selectedAPIEndpoint: APIEndpoints?
-    
+
+    // MARK: - Lifecycle
+    override func loadView() {
+        self.view = self.itemsFeedView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.tabBarItem = UITabBarItem(tabBarSystemItem: .mostRecent, tag: 0)
         
-        self.feedTableView.delegate = self
-        self.feedTableView.dataSource = self
-        self.feedTableView.register(UINib(nibName: "NewsFeedTableViewCell", bundle: nil), forCellReuseIdentifier: "NewsFeedCell")
+        self.itemsFeedView.feedTableView.delegate = self
+        self.itemsFeedView.feedTableView.dataSource = self
         
         // Default settings for the loading message.
-        self.loadingMessageLabel.text = "Loading Stories..."
-        self.loadingMessageLabel.textAlignment = .center
+        self.itemsFeedView.loadingMessageLabel.text = "Loading Stories..."
+        self.itemsFeedView.loadingMessageLabel.textAlignment = .center
         
         // First load.
         self.checkFeedUpdates()
         
         if self.traitCollection.forceTouchCapability == .available {
-            self.registerForPreviewing(with: self, sourceView: self.feedTableView)
+            self.registerForPreviewing(with: self, sourceView: self.itemsFeedView.feedTableView)
         }
     }
     
@@ -66,20 +72,9 @@ class NewsFeedViewController: UIViewController {
             self.apiHandler.listOfStories(from: selected.info.endpoint) { news in
                 DispatchQueue.main.async {
                     self.loadedNews = news
-                    self.feedTableView.reloadData()
+                    self.itemsFeedView.feedTableView.reloadData()
                 }
             }
-        }
-    }
-    
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "DisplayItemSegue" {
-            guard let destination = segue.destination as? ItemViewController,
-                let item = sender as? Item else { return }
-            
-            destination.item = item
-            destination.hidesBottomBarWhenPushed = true
         }
     }
 
@@ -90,13 +85,14 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("count " , self.loadedNews.count)
         let count = self.loadedNews.count
-        self.feedTableView.backgroundView = count == 0 ? self.loadingMessageLabel : nil
+        tableView.backgroundView = count == 0 ? self.itemsFeedView.loadingMessageLabel : nil
     
         return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewsFeedCell", for: indexPath) as? NewsFeedTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "NewsFeedCell", for: indexPath) as? NewsFeedTableViewCell else {
             fatalError("The dequeued cell is not an instance of NewsFeedTableViewCell.")
         }
         
@@ -107,18 +103,21 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.feedTableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "DisplayItemSegue", sender: self.loadedNews[indexPath.row])
+        tableView.deselectRow(at: indexPath, animated: true)
+        let item = self.loadedNews[indexPath.row]
+        self.coordinator?.showDetails(of: item)
     }
 }
 
 // MARK: - UIViewControllerPreviewingDelegate implementation.
 extension NewsFeedViewController: UIViewControllerPreviewingDelegate {
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let indexPath = self.feedTableView.indexPathForRow(at: location),
-            let cell = self.feedTableView.cellForRow(at: indexPath) else { return nil }
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing,
+                           viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = self.itemsFeedView.feedTableView.indexPathForRow(at: location),
+            let cell = self.itemsFeedView.feedTableView.cellForRow(at: indexPath) else { return nil }
         
-        guard let itemViewController = storyboard?.instantiateViewController(withIdentifier: "ItemViewController") as? ItemViewController else { return nil }
+        guard let itemViewController = storyboard?.instantiateViewController(
+            withIdentifier: "ItemViewController") as? ItemViewController else { return nil }
         
         let item = self.loadedNews[indexPath.row]
         itemViewController.item = item
@@ -128,7 +127,8 @@ extension NewsFeedViewController: UIViewControllerPreviewingDelegate {
         return itemViewController
     }
     
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing,
+                           commit viewControllerToCommit: UIViewController) {
         show(viewControllerToCommit, sender: self)
     }
 }

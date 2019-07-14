@@ -26,11 +26,6 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        let itemImage = UIImage(named: "settings")
-        self.navigationController?.tabBarItem = UITabBarItem(title: "Settings", image: itemImage, tag: 0)
-        self.navigationItem.title = "Settings"
-        
         if let settingsView = self.view as? SettingsView {
             settingsView.defaultFeedPicker.delegate = self
             settingsView.defaultFeedPicker.dataSource = self
