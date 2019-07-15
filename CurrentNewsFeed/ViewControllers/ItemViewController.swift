@@ -98,7 +98,7 @@ final class ItemViewController: UIViewController {
     
     private func save() {
         let favorite = Favorite(context: DataManager.context)
-        favorite.itemID = Int16(self.item.id)
+        favorite.itemID = Int64(self.item.id)
         favorite.title = self.item.title
         favorite.type = self.item.type
         favorite.url = self.item.url
