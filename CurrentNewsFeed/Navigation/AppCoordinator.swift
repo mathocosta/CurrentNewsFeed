@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class AppCoordinator: Coordinator {
+final class AppCoordinator: NSObject, Coordinator {
     
     var childCoordinators: [Coordinator]?
     
@@ -21,23 +21,31 @@ final class AppCoordinator: Coordinator {
     init(tabBarController: UITabBarController) {
         self.tabBarController = tabBarController
         self.childCoordinators = [
-            FavoritesFeedCoordinator(navigationController: UINavigationController()),
             NewsFeedCoordinator(navigationController: UINavigationController()),
+            FavoritesFeedCoordinator(navigationController: UINavigationController()),
             SettingsCoordinator(navigationController: UINavigationController())
         ]
 
+        super.init()
+
         self.tabBarController.viewControllers = self.childCoordinators?.map({ $0.rootViewController })
         self.tabBarController.tabBar.isTranslucent = false
+        self.tabBarController.delegate = self
     }
-    
+
     func start() {
         let firstCoordinator = self.childCoordinators?.first
         firstCoordinator?.start()
     }
+    
+}
 
-    func showTab(at index: Int) {
-        let coordinator = self.childCoordinators?[index]
+// MARK: - UITabBarControllerDelegate
+extension AppCoordinator: UITabBarControllerDelegate {
+
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let coordinator = self.childCoordinators?.first(where: { $0.rootViewController == viewController })
         coordinator?.start()
     }
-    
+
 }

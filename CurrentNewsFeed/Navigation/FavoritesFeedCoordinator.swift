@@ -20,10 +20,14 @@ class FavoritesFeedCoordinator: Coordinator {
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        self.navigationController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
+        self.navigationController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
     }
 
     func start() {
+        // This is necessary to check if the coordinator is already started,
+        // if so, prevents to push the same view controller over and over
+        guard self.navigationController.topViewController == nil else { return }
+
         let vc = FavoritesFeedViewController()
         vc.coordinator = self
 

@@ -61,7 +61,8 @@ final class ItemViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        self.hidesBottomBarWhenPushed = true
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.rightBarButtonItem = self.itemView.rightBarButton
         

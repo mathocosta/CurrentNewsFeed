@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    private var appCoordinator: AppCoordinator?
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -26,12 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow()
         self.window?.makeKeyAndVisible()
+
+        self.appCoordinator = AppCoordinator(tabBarController: UITabBarController())
+        self.appCoordinator?.start()
         
-        let tabBarController = UITabBarController()
-        let appCoordinator = AppCoordinator(tabBarController: tabBarController)
-        appCoordinator.start()
-        
-        self.window?.rootViewController = tabBarController
+        self.window?.rootViewController = self.appCoordinator?.rootViewController
         
         return true
     }

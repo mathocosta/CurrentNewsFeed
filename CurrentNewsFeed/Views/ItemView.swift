@@ -75,7 +75,6 @@ final class ItemView: UIView {
         self.authorText.text = "by \(item.author ?? ""), at \(self.dateFormatter.string(from: item.published))"
         self.titleText.text = item.title
         super.init(frame: frame)
-        self.backgroundColor = .white
         self.setupView()
     }
 
@@ -124,6 +123,8 @@ extension ItemView: CodeView {
     }
 
     func setupAdditionalConfiguration() {
+        self.backgroundColor = .white
+        
         self.rightBarButton.target = self
         self.rightBarButton.action = #selector(onRightButton(_:))
     }

@@ -20,13 +20,16 @@ final class SettingsCoordinator: Coordinator {
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        self.navigationController.navigationBar.prefersLargeTitles = true
         self.navigationController.tabBarItem = UITabBarItem(
-            title: "Settings", image: UIImage(named: "settings"), tag: 1)
-        self.navigationController.navigationItem.title = "Settings"
+            title: "Settings", image: UIImage(named: "settings"), tag: 2)
+        
     }
     
     func start() {
+        // This is necessary to check if the coordinator is already started,
+        // if so, prevents to push the same view controller over and over
+        guard self.navigationController.topViewController == nil else { return }
+
         let vc = SettingsViewController()
         vc.coordinator = self
         

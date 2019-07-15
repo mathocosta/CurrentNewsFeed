@@ -29,7 +29,6 @@ class ItemsFeedView: UIView {
     // MARK: - Initializers
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
-        self.backgroundColor = .white
         self.setupView()
     }
 
@@ -54,7 +53,7 @@ extension ItemsFeedView: CodeView {
     }
 
     func setupAdditionalConfiguration() {
-
+        self.backgroundColor = .white
     }
 
 }

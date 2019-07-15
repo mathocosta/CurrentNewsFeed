@@ -20,12 +20,14 @@ final class SettingsViewController: UIViewController {
     
     override func loadView() {
         self.view = SettingsView()
-        self.view.backgroundColor = .white
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.title = "Settings"
+
         if let settingsView = self.view as? SettingsView {
             settingsView.defaultFeedPicker.delegate = self
             settingsView.defaultFeedPicker.dataSource = self

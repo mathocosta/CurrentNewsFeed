@@ -106,6 +106,7 @@ extension SettingsView: CodeView {
     }
     
     func setupAdditionalConfiguration() {
+        self.backgroundColor = .white
     }
     
 }
