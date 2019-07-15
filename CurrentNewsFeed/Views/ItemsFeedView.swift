@@ -10,9 +10,8 @@ import UIKit
 
 class ItemsFeedView: UIView {
 
-    let loadingMessageLabel: UILabel = {
+    let messageLabel: UILabel = {
         let label = UILabel()
-        label.text = "Loading Stories..."
         label.textAlignment = .center
 
         return label

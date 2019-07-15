@@ -8,7 +8,11 @@
 
 import UIKit
 
-class ItemViewController: UIViewController {
+protocol ItemViewControllerDelegate {
+    func itemDeleted(_ item: Item, at position: IndexPath)
+}
+
+final class ItemViewController: UIViewController {
 
     // MARK: - Properties
 
@@ -59,7 +63,7 @@ class ItemViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationItem.largeTitleDisplayMode = .never
-        self.navigationItem.rightBarButtonItem = self.itemView.rightBarButtom
+        self.navigationItem.rightBarButtonItem = self.itemView.rightBarButton
         
         self.itemView.commentsTableView.delegate = self
         self.itemView.commentsTableView.dataSource = self
@@ -67,10 +71,10 @@ class ItemViewController: UIViewController {
         // If the delegate is not nil, then it's because they come from the favorites screen.
         // FIXME: Not the best way to do this, but it will stay that way for now.
         if self.delegate != nil {
-            self.itemView.rightBarButtom.title = "Remove"
+            self.itemView.rightBarButton.title = "Remove"
             self.itemView.rightBarButtonTapped = self.remove
         } else {
-            self.itemView.rightBarButtom.title = "Save"
+            self.itemView.rightBarButton.title = "Save"
             self.itemView.rightBarButtonTapped = self.save
         }
         

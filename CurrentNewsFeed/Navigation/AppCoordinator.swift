@@ -21,6 +21,7 @@ final class AppCoordinator: Coordinator {
     init(tabBarController: UITabBarController) {
         self.tabBarController = tabBarController
         self.childCoordinators = [
+            FavoritesFeedCoordinator(navigationController: UINavigationController()),
             NewsFeedCoordinator(navigationController: UINavigationController()),
             SettingsCoordinator(navigationController: UINavigationController())
         ]

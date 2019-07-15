@@ -37,9 +37,7 @@ final class NewsFeedViewController: UIViewController {
         self.itemsFeedView.feedTableView.delegate = self
         self.itemsFeedView.feedTableView.dataSource = self
         
-        // Default settings for the loading message.
-        self.itemsFeedView.loadingMessageLabel.text = "Loading Stories..."
-        self.itemsFeedView.loadingMessageLabel.textAlignment = .center
+        self.itemsFeedView.messageLabel.text = "Loading Stories..."
         
         // First load.
         self.checkFeedUpdates()
@@ -85,7 +83,7 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("count " , self.loadedNews.count)
         let count = self.loadedNews.count
-        tableView.backgroundView = count == 0 ? self.itemsFeedView.loadingMessageLabel : nil
+        tableView.backgroundView = count == 0 ? self.itemsFeedView.messageLabel : nil
     
         return count
     }
