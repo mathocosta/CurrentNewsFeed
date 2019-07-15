@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ItemViewControllerDelegate {
+protocol ItemViewControllerDelegate: class {
     func itemDeleted(_ item: Item)
 }
 
@@ -21,24 +21,24 @@ final class ItemViewController: UIViewController {
     var item: Item
     var cellIndexPath: IndexPath?
     var coordinator: Coordinator?
-    var delegate: ItemViewControllerDelegate?
+    weak var delegate: ItemViewControllerDelegate?
 
     var loadedComments: [Item] = []
     var apiHandler = APIHandler()
-    
+
     lazy var previewActions: [UIPreviewActionItem] = {
         /// Action to save a favorite, this is done by getting the value of the item
         /// property that exists in the viewcontroller.
         let addFavoriteAction = UIPreviewAction(
-            title: "Adicionar Favorito", style: .default, handler: { action, viewController in
-                guard let vc = viewController as? ItemViewController else { return }
-                
+            title: "Adicionar Favorito", style: .default, handler: { _, viewController in
+                guard let viewController = viewController as? ItemViewController else { return }
+
                 self.save()
             }
         )
         return [addFavoriteAction]
     }()
-    
+
     override var previewActionItems: [UIPreviewActionItem] {
         return self.previewActions
     }
@@ -65,7 +65,7 @@ final class ItemViewController: UIViewController {
         self.hidesBottomBarWhenPushed = true
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.rightBarButtonItem = self.itemView.rightBarButton
-        
+
         self.itemView.commentsTableView.delegate = self
         self.itemView.commentsTableView.dataSource = self
 
@@ -78,7 +78,7 @@ final class ItemViewController: UIViewController {
             self.itemView.rightBarButton.title = "Save"
             self.itemView.rightBarButtonTapped = self.save
         }
-        
+
         if let kids = self.item.kids {
             self.apiHandler.items(from: kids) { items in
                 DispatchQueue.main.async {
@@ -95,7 +95,7 @@ final class ItemViewController: UIViewController {
         self.delegate?.itemDeleted(self.item)
         self.navigationController?.popViewController(animated: true)
     }
-    
+
     private func save() {
         let favorite = Favorite(context: DataManager.context)
         favorite.itemID = Int64(self.item.id)
@@ -104,7 +104,7 @@ final class ItemViewController: UIViewController {
         favorite.url = self.item.url
         favorite.published = self.item.published
         favorite.savedOn = Date()
-        
+
         DataManager.saveContext()
     }
 }
@@ -115,20 +115,20 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let count = self.loadedComments.count
         tableView.backgroundView = count == 0 ? self.itemView.loadingMessageLabel : nil
-        
+
         return count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: "CommentItemCell", for: indexPath) as? CommentItemTableViewCell else {
             fatalError("The dequeued cell is not an instance of CommentItemTableViewCell.")
         }
-        
+
         let current = self.loadedComments[indexPath.row]
         cell.configureCell(item: current)
-        
+
         return cell
     }
-    
+
 }

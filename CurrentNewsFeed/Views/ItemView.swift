@@ -124,7 +124,7 @@ extension ItemView: CodeView {
 
     func setupAdditionalConfiguration() {
         self.backgroundColor = .white
-        
+
         self.rightBarButton.target = self
         self.rightBarButton.action = #selector(onRightButton(_:))
     }

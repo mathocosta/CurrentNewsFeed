@@ -28,19 +28,19 @@ class FavoritesFeedCoordinator: Coordinator {
         // if so, prevents to push the same view controller over and over
         guard self.navigationController.topViewController == nil else { return }
 
-        let vc = FavoritesFeedViewController()
-        vc.coordinator = self
+        let viewController = FavoritesFeedViewController()
+        viewController.coordinator = self
 
-        self.navigationController.pushViewController(vc, animated: true)
+        self.navigationController.pushViewController(viewController, animated: true)
     }
 
     func showDetails(of item: Item) {
         guard let favoritesFeedViewController = self.navigationController.topViewController as? FavoritesFeedViewController else { return }
-        let vc = ItemViewController(item: item)
-        vc.coordinator = self
-        vc.delegate = favoritesFeedViewController
+        let viewController = ItemViewController(item: item)
+        viewController.coordinator = self
+        viewController.delegate = favoritesFeedViewController
 
-        self.navigationController.pushViewController(vc, animated: true)
+        self.navigationController.pushViewController(viewController, animated: true)
     }
 
 }

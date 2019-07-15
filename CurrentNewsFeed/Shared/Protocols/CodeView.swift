@@ -16,11 +16,11 @@ protocol CodeView {
 }
 
 extension CodeView {
-    
+
     func setupView() {
         self.buildViewHierarchy()
         self.setupConstraints()
         self.setupAdditionalConfiguration()
     }
-    
+
 }

@@ -12,14 +12,14 @@ import CoreData
 class DataManager: NSObject {
     static var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "CurrentNewsFeed")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 print("Unresolved error \(error), \(error.userInfo)")
             }
         })
         return container
     }()
-    
+
     static func fetch<T>(_ request: NSFetchRequest<T>) -> [T] {
         do {
             let list = try persistentContainer.viewContext.fetch(request)
@@ -29,11 +29,11 @@ class DataManager: NSObject {
             return [T]()
         }
     }
-    
+
     static var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
-    
+
     static func saveContext() {
         if context.hasChanges {
             do {

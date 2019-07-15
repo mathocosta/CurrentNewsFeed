@@ -9,15 +9,15 @@
 import UIKit
 
 final class AppCoordinator: NSObject, Coordinator {
-    
+
     var childCoordinators: [Coordinator]?
-    
+
     var rootViewController: UIViewController {
         return self.tabBarController
     }
-    
+
     var tabBarController: UITabBarController
-    
+
     init(tabBarController: UITabBarController) {
         self.tabBarController = tabBarController
         self.childCoordinators = [
@@ -37,7 +37,7 @@ final class AppCoordinator: NSObject, Coordinator {
         let firstCoordinator = self.childCoordinators?.first
         firstCoordinator?.start()
     }
-    
+
 }
 
 // MARK: - UITabBarControllerDelegate

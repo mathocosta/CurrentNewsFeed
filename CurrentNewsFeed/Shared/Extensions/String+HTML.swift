@@ -9,17 +9,20 @@
 import Foundation
 
 extension String {
-    
+
     /// Returns a String from a HTML data string.
     ///
     /// - Returns: HTML processing result.
     func toAttributedString() -> NSAttributedString {
         guard let data = data(using: .utf8) else { return NSAttributedString() }
-        
+
         do {
             let attrString = try NSAttributedString(
                 data: data,
-                options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue],
+                options: [
+                    .documentType: NSAttributedString.DocumentType.html,
+                    .characterEncoding: String.Encoding.utf8.rawValue
+                ],
                 documentAttributes: nil)
             return attrString
         } catch let error {

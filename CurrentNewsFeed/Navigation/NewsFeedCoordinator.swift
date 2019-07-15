@@ -28,17 +28,17 @@ class NewsFeedCoordinator: Coordinator {
         // if so, prevents to push the same view controller over and over
         guard self.navigationController.topViewController == nil else { return }
 
-        let vc = NewsFeedViewController()
-        vc.coordinator = self
+        let viewController = NewsFeedViewController()
+        viewController.coordinator = self
 
-        self.navigationController.pushViewController(vc, animated: false)
+        self.navigationController.pushViewController(viewController, animated: false)
     }
 
     func showDetails(of item: Item) {
-        let vc = ItemViewController(item: item)
-        vc.coordinator = self
+        let viewController = ItemViewController(item: item)
+        viewController.coordinator = self
 
-        self.navigationController.pushViewController(vc, animated: true)
+        self.navigationController.pushViewController(viewController, animated: true)
     }
 
 }

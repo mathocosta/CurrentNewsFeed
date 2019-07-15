@@ -13,12 +13,12 @@ struct Item: Decodable {
     var author: String?
     var published: Date
     var type: String
-    
+
     var title: String?
     var body: String?
     var kids: [Int]?
     var url: String?
-    
+
     private enum CodingKeys: String, CodingKey {
         case id
         case author = "by"
@@ -29,7 +29,7 @@ struct Item: Decodable {
         case kids
         case url
     }
-    
+
     /// Init from Favorite NSManagedObject, it is used to
     /// build the table view cell on favorites view controller.
     ///
@@ -42,7 +42,7 @@ struct Item: Decodable {
         self.type = favorite.type ?? ""
         self.url = favorite.url ?? ""
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

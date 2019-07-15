@@ -18,11 +18,11 @@ final class FavoritesFeedViewController: UIViewController {
     lazy var fetchedResultController: NSFetchedResultsController<Favorite> = {
         let request: NSFetchRequest<Favorite> = Favorite.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "savedOn", ascending: false)]
-        
+
         let controller = NSFetchedResultsController(
             fetchRequest: request, managedObjectContext: DataManager.context, sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
-        
+
         return controller
     }()
 
@@ -36,16 +36,16 @@ final class FavoritesFeedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "Favorites"
-        
+
         self.itemsFeedView.feedTableView.delegate = self
         self.itemsFeedView.feedTableView.dataSource = self
-        
+
         // Default settings for the empty favorites list label.
         self.itemsFeedView.messageLabel.text = "No favorites added"
-        
+
         do {
             try self.fetchedResultController.performFetch()
         } catch let fetchError {
@@ -62,7 +62,7 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
         guard let favorites = self.fetchedResultController.fetchedObjects else {
             return 0
         }
-        print("favorites count " , favorites.count)
+        print("favorites count ", favorites.count)
         tableView.backgroundView = favorites.count == 0 ? self.itemsFeedView.messageLabel : nil
 
         return favorites.count
@@ -80,7 +80,7 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
 
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -88,7 +88,7 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
             DataManager.context.delete(favorite)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let favorite = self.fetchedResultController.object(at: indexPath)
         let item = Item(from: favorite)
@@ -119,7 +119,6 @@ extension FavoritesFeedViewController: NSFetchedResultsControllerDelegate {
             if let indexPath = indexPath {
                 self.itemsFeedView.feedTableView.deleteRows(at: [indexPath], with: .fade)
             }
-            break
         default:
             self.itemsFeedView.feedTableView.reloadData()
         }
