@@ -55,9 +55,10 @@ final class ItemView: UIView {
         return tableView
     }()
 
-    let rightBarButtom: UIBarButtonItem = {
-        let button = UIBarButtonItem(
-            title: "", style: .done, target: self, action: #selector(onRightButton(_:)))
+    let rightBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        button.style = .plain
+        button.possibleTitles = ["Save", "Delete"]
 
         return button
     }()
@@ -123,6 +124,8 @@ extension ItemView: CodeView {
     }
 
     func setupAdditionalConfiguration() {
+        self.rightBarButton.target = self
+        self.rightBarButton.action = #selector(onRightButton(_:))
     }
 
 }

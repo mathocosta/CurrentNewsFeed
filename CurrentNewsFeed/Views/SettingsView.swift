@@ -34,11 +34,11 @@ final class SettingsView: UIView {
         toolbar.sizeToFit()
         
         let doneButton = UIBarButtonItem(
-            title: "Done", style: UIBarButtonItem.Style.plain, target: self, action: #selector(toolbarOnDone(_:)))
+            title: "Done", style: .plain, target: self, action: #selector(toolbarOnDone(_:)))
         let spaceButton = UIBarButtonItem(
-            barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+            barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(
-            title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(toolbarOnCancel(_:)))
+            title: "Cancel", style: .plain, target: self, action: #selector(toolbarOnCancel(_:)))
         
         toolbar.setItems([doneButton, spaceButton, cancelButton], animated: false)
         toolbar.isUserInteractionEnabled = true

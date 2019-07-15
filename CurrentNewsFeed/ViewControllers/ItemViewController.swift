@@ -16,7 +16,7 @@ class ItemViewController: UIViewController {
 
     var item: Item
     var cellIndexPath: IndexPath?
-    var coordinator: NewsFeedCoordinator?
+    var coordinator: Coordinator?
     var delegate: ItemViewControllerDelegate?
 
     var loadedComments: [Item] = []
@@ -53,27 +53,25 @@ class ItemViewController: UIViewController {
 
     override func loadView() {
         self.view = self.itemView
-        self.navigationItem.rightBarButtonItem = self.itemView.rightBarButtom
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.largeTitleDisplayMode = .never
+        self.navigationItem.rightBarButtonItem = self.itemView.rightBarButtom
         
         self.itemView.commentsTableView.delegate = self
         self.itemView.commentsTableView.dataSource = self
-
-        
 
         // If the delegate is not nil, then it's because they come from the favorites screen.
         // FIXME: Not the best way to do this, but it will stay that way for now.
         if self.delegate != nil {
             self.itemView.rightBarButtom.title = "Remove"
-            self.itemView.rightBarButtonTapped = self.save
+            self.itemView.rightBarButtonTapped = self.remove
         } else {
             self.itemView.rightBarButtom.title = "Save"
-            self.itemView.rightBarButtonTapped = self.remove
+            self.itemView.rightBarButtonTapped = self.save
         }
         
         if let kids = self.item.kids {
