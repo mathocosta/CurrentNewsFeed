@@ -8,121 +8,120 @@
 
 import UIKit
 
-class ItemViewController: UIViewController {
-    @IBOutlet weak var authorText: UILabel!
-    @IBOutlet weak var titleText: UILabel!
-    @IBOutlet weak var commentsTableView: UITableView!
-    @IBOutlet weak var rightButton: UIBarButtonItem!
-    
-    var loadingMessageLabel = UILabel()
-    
+protocol ItemViewControllerDelegate {
+    func itemDeleted(_ item: Item)
+}
+
+final class ItemViewController: UIViewController {
+
+    // MARK: - Properties
+
+    let itemView: ItemView
+
+    var item: Item
+    var cellIndexPath: IndexPath?
+    var coordinator: Coordinator?
+    var delegate: ItemViewControllerDelegate?
+
     var loadedComments: [Item] = []
     var apiHandler = APIHandler()
-    
-    var item: Item?
-    var cellIndexPath: IndexPath?
-    var delegate: ItemViewControllerDelegate?
     
     lazy var previewActions: [UIPreviewActionItem] = {
         /// Action to save a favorite, this is done by getting the value of the item
         /// property that exists in the viewcontroller.
         let addFavoriteAction = UIPreviewAction(
             title: "Adicionar Favorito", style: .default, handler: { action, viewController in
-                guard let vc = viewController as? ItemViewController,
-                    let item = vc.item else { return }
+                guard let vc = viewController as? ItemViewController else { return }
                 
-                self.save(favorite: item)
+                self.save()
             }
         )
         return [addFavoriteAction]
     }()
     
     override var previewActionItems: [UIPreviewActionItem] {
-        return previewActions
+        return self.previewActions
     }
-    
+
+    // MARK: - Lifecycle
+
+    init(item: Item) {
+        self.item = item
+        self.itemView = ItemView(item: item)
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        self.view = self.itemView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        self.hidesBottomBarWhenPushed = true
         self.navigationItem.largeTitleDisplayMode = .never
+        self.navigationItem.rightBarButtonItem = self.itemView.rightBarButton
         
-        self.loadingMessageLabel.text = "Loading Comments..."
-        self.loadingMessageLabel.textAlignment = .center
-        
-        self.commentsTableView.delegate = self
-        self.commentsTableView.dataSource = self
-        self.commentsTableView.register(UINib(nibName: "CommentItemTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentItemCell")
-        
+        self.itemView.commentsTableView.delegate = self
+        self.itemView.commentsTableView.dataSource = self
+
         // If the delegate is not nil, then it's because they come from the favorites screen.
         // FIXME: Not the best way to do this, but it will stay that way for now.
         if self.delegate != nil {
-            self.rightButton.title = "Remove"
+            self.itemView.rightBarButton.title = "Remove"
+            self.itemView.rightBarButtonTapped = self.remove
         } else {
-            self.rightButton.title = "Save"
+            self.itemView.rightBarButton.title = "Save"
+            self.itemView.rightBarButtonTapped = self.save
         }
         
-        if let item = item {
-            self.configureView(item: item)
-        }
-        
-        if let kids = self.item?.kids {
+        if let kids = self.item.kids {
             self.apiHandler.items(from: kids) { items in
                 DispatchQueue.main.async {
                     self.loadedComments = items
-                    self.commentsTableView.reloadData()
+                    self.itemView.commentsTableView.reloadData()
                 }
             }
         }
     }
-    
-    /// Configure view with the data passed via paramenter.
-    ///
-    /// - Parameter item: Item object with the data to be used.
-    func configureView(item: Item) {
-        self.titleText?.text = item.title
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, yyyy h:mm"
-        
-        if let author = item.author {
-            self.authorText?.text = "by \(author), at \(formatter.string(from: item.published))"
-        }
-    }
 
-    @IBAction func rightButtonAction(_ sender: UIBarButtonItem) {
-        guard let item = self.item else { return }
-        
-        // FIXME: Again, not the best way to do this, but it will stay that way for now.
-        if self.delegate == nil {
-            self.save(favorite: item)
-        } else {
-            self.delegate?.itemDeleted(self.item!, at: self.cellIndexPath!)
-            self.navigationController?.popViewController(animated: true)
-        }
+    // MARK: - Methods
+
+    private func remove() {
+        self.delegate?.itemDeleted(self.item)
+        self.navigationController?.popViewController(animated: true)
     }
     
-    private func save(favorite item: Item) {
+    private func save() {
         let favorite = Favorite(context: DataManager.context)
-        favorite.title = item.title
-        favorite.type = item.type
-        favorite.url = item.url
-        favorite.published = item.published
+        favorite.itemID = Int64(self.item.id)
+        favorite.title = self.item.title
+        favorite.type = self.item.type
+        favorite.url = self.item.url
+        favorite.published = self.item.published
         favorite.savedOn = Date()
         
         DataManager.saveContext()
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let count = self.loadedComments.count
-        self.commentsTableView.backgroundView = count == 0 ? self.loadingMessageLabel : nil
+        tableView.backgroundView = count == 0 ? self.itemView.loadingMessageLabel : nil
         
         return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentItemCell", for: indexPath) as? CommentItemTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "CommentItemCell", for: indexPath) as? CommentItemTableViewCell else {
             fatalError("The dequeued cell is not an instance of CommentItemTableViewCell.")
         }
         
@@ -131,4 +130,5 @@ extension ItemViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
 }

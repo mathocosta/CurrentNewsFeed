@@ -8,72 +8,53 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+final class SettingsViewController: UIViewController {
+    
+    var coordinator: SettingsCoordinator?
+    
     var feedChoices: [(label: String, endpoint: Endpoint)] {
         return APIEndpoints.allCases.map { $0.info }
     }
     
     var selectedChoice: Int?
     
-    @IBOutlet weak var defaultFeedField: UITextField!
+    override func loadView() {
+        self.view = SettingsView()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "Settings"
-        
-        self.configureFeedChoicesField()
+
+        if let settingsView = self.view as? SettingsView {
+            settingsView.defaultFeedPicker.delegate = self
+            settingsView.defaultFeedPicker.dataSource = self
+            
+            let userDefaults = UserDefaults.standard
+            
+            let selectedFeedSaved = userDefaults.integer(forKey: "MainFeedURL")
+            settingsView.defaultFeedPicker.selectRow(selectedFeedSaved, inComponent: 0, animated: false)
+            settingsView.defaultFeedField.text = APIEndpoints(rawValue: selectedFeedSaved)?.info.label
+            
+            settingsView.defaultFeedShouldChange = { [weak self] in
+                guard let newFeedSelected = self?.selectedChoice else { return }
+                
+                // Save the setting to be used when requesting main page content.
+                userDefaults.set(newFeedSelected, forKey: "MainFeedURL")
+                
+                let label = APIEndpoints(rawValue: newFeedSelected)?.info.label
+                settingsView.defaultFeedField.text = label
+            }
+        }
     }
     
-    // TODO: create a separate controller for that texfield and pickerview configuration part.
-    func configureFeedChoicesField() {
-        let defaultFeedPicker = UIPickerView()
-        
-        defaultFeedPicker.delegate = self
-        defaultFeedPicker.dataSource = self
-        defaultFeedPicker.showsSelectionIndicator = true
-        
-        let toolbar = UIToolbar()
-        toolbar.barStyle = .default
-        toolbar.isTranslucent = true
-        toolbar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(
-            title: "Done", style: UIBarButtonItem.Style.plain, target: self, action: #selector(doneAction))
-        let spaceButton = UIBarButtonItem(
-            barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(
-            title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelAction))
-        
-        toolbar.setItems([doneButton, spaceButton, cancelButton], animated: false)
-        toolbar.isUserInteractionEnabled = true
-        
-        let selected = UserDefaults.standard.integer(forKey: "MainFeedURL")
-        defaultFeedPicker.selectRow(selected, inComponent: 0, animated: false)
-        
-        self.defaultFeedField.text = APIEndpoints(rawValue: selected)?.info.label
-        self.defaultFeedField.inputView = defaultFeedPicker
-        self.defaultFeedField.inputAccessoryView = toolbar
-    }
-    
-    @objc func doneAction(sender: UIButton) {
-        // Save the setting to be used when requesting main page content.
-        UserDefaults.standard.set(self.selectedChoice, forKey: "MainFeedURL")
-        
-        let label = APIEndpoints(rawValue: self.selectedChoice!)?.info.label
-        self.defaultFeedField.text = label
-        
-        self.defaultFeedField.resignFirstResponder()
-    }
-    
-    @objc func cancelAction(sender: UIButton) {
-        self.defaultFeedField.resignFirstResponder()
-    }
 }
 
 // MARK: - AvailableFeedsPicker delegate and data source implementation.
 extension SettingsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -89,4 +70,5 @@ extension SettingsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.selectedChoice = row
     }
+    
 }
