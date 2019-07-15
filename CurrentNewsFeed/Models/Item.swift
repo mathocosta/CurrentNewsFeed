@@ -9,6 +9,7 @@
 import Foundation
 
 struct Item: Decodable {
+    var id: Int
     var author: String?
     var published: Date
     var type: String
@@ -19,6 +20,7 @@ struct Item: Decodable {
     var url: String?
     
     private enum CodingKeys: String, CodingKey {
+        case id
         case author = "by"
         case published = "time"
         case type
@@ -33,6 +35,7 @@ struct Item: Decodable {
     ///
     /// - Parameter favorite: Favorite NSManagedObject
     init(from favorite: Favorite) {
+        self.id = Int(favorite.itemID)
         self.author = favorite.author ?? ""
         self.published = favorite.published ?? Date()
         self.title = favorite.title ?? ""
@@ -46,7 +49,8 @@ struct Item: Decodable {
         let timeString = try container.decode(TimeInterval.self, forKey: .published)
         self.published = Date(timeIntervalSince1970: timeString)
         self.type = try container.decode(String.self, forKey: .type)
-        
+        self.id = try container.decode(Int.self, forKey: .id)
+
         self.author = try container.decodeIfPresent(String.self, forKey: .author)
         self.title = try container.decodeIfPresent(String.self, forKey: .title)
         self.body = try container.decodeIfPresent(String.self, forKey: .body)

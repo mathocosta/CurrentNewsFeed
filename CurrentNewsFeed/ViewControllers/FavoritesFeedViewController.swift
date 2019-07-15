@@ -99,11 +99,14 @@ extension FavoritesFeedViewController: UITableViewDelegate, UITableViewDataSourc
 
 // MARK: - ItemViewController delegate implementation.
 extension FavoritesFeedViewController: ItemViewControllerDelegate {
-    func itemDeleted(_ item: Item, at position: IndexPath) {
-        let favorite = self.fetchedResultController.object(at: position)
+
+    func itemDeleted(_ item: Item) {
+        guard let objects = self.fetchedResultController.fetchedObjects,
+            let favorite = objects.first(where: { $0.itemID == Int16(item.id) }) else { return }
 
         DataManager.context.delete(favorite)
     }
+
 }
 
 // MARK: - NSFetchedResultsController delegate implementation.

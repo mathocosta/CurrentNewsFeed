@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ItemViewControllerDelegate {
-    func itemDeleted(_ item: Item, at position: IndexPath)
+    func itemDeleted(_ item: Item)
 }
 
 final class ItemViewController: UIViewController {
@@ -91,12 +91,13 @@ final class ItemViewController: UIViewController {
     // MARK: - Methods
 
     private func remove() {
-        self.delegate?.itemDeleted(self.item, at: self.cellIndexPath!)
+        self.delegate?.itemDeleted(self.item)
         self.navigationController?.popViewController(animated: true)
     }
     
     private func save() {
         let favorite = Favorite(context: DataManager.context)
+        favorite.itemID = Int16(self.item.id)
         favorite.title = self.item.title
         favorite.type = self.item.type
         favorite.url = self.item.url
